@@ -54,3 +54,4 @@
 
 #define COLON 46
 #define BREAK 47
+#define DEFAULT 48
