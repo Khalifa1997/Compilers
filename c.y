@@ -67,6 +67,7 @@ Stmt:	WhileStmt
 	| Declaration
 	| ForStmt
 	| IfStmt
+	| SS
 	;
 
 /* Type Identifier block */
