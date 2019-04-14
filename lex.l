@@ -48,6 +48,9 @@ int yywrap();
 ","				return COMMA;
 "("				return LBRACKET;
 ")"				return RBRACKET;
+":" 		return COLON;
+"break" 	return BREAK;
+"default" return DEFAULT;
 
 
 "switch"		return SWITCH;
@@ -68,9 +71,6 @@ int yywrap();
 [\/\*][.]*[\/\*]	return COMMENT;
 . 				;
 [ \n\t\f\r\v]			;
-":" 		return COLON;
-"break" 	return BREAK;
-"default" return DEFAULT;
 
 %%
 
