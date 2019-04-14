@@ -3,7 +3,7 @@
 #include <stdlib.h>
 extern FILE *fp;
 %}
-
+//Hi ashraf
 %token INT FLOAT CHAR VOID SEMICOLON RETURN STRING
 %token FOR WHILE 
 %token IF ELSE
