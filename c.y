@@ -6,7 +6,7 @@ extern FILE *fp;
 
 %token INT FLOAT CHAR VOID
 %token FOR WHILE 
-%token IF ELSE PRINTF 
+%token IF ELSE 
 %token STRUCT 
 %token NUM ID
 %token INCLUDE
@@ -65,8 +65,6 @@ Stmt:	WhileStmt
 	| Declaration
 	| ForStmt
 	| IfStmt
-	| PrintFunc
-	| ';'
 	;
 
 /* Type Identifier block */
@@ -91,9 +89,7 @@ IfStmt: IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE
 	|IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE ELSE RBRACE Stmt LBRACE
 	;
 
-/* Print Function */
-PrintFunc: PRINTF LBRACKET Expr RBRACKET SEMICOLON
-	;
+
 Operations:EQEQ
 					|GT
 					|LT
