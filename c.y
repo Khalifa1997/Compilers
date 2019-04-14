@@ -8,16 +8,21 @@ extern FILE *fp;
 %token FOR WHILE 
 %token IF ELSE 
 %token STRUCT 
-%token NUM ID
+%token RBRACE LBRACE PLUS MULTIPLY MINUS RBRACKET SEMICOLON STRING DEC INC AND_AND OR_OR NOT DIVIDE IDENTIFIER LBRACKET
 %token INCLUDE
 %token DOT
 
 %union {
-  int INTVALUE;
-  char CHARVALUE;
-  float FLOATVALUE;
-  string STRINGVALUE;
+  int intVal;
+  char charVal;
+  float floatVal;
+  string strVal;
 }
+%token <charVal>  CHARVALUE
+%token <intVal>   INTVALUE
+%token <floatVal> FLOATVALUE
+%token <strVal> STRINGVALUE
+
 %right EQ
 %left AND OR //?
 %left EQEQ LTEQ GT GTEQ LT NEQ
@@ -58,9 +63,6 @@ Assignment: IDENTIFIER PLUS Assignment
 	;
 
 
-StmtList:	StmtList Stmt
-	|
-	;
 Stmt:	WhileStmt
 	| Declaration
 	| ForStmt
@@ -90,12 +92,12 @@ IfStmt: IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE
 	;
 
 
-Operations:EQEQ
-					|GT
-					|LT
-					|GTEQ
-					|LTEQ
-					|NEQ
+Operations: EQEQ
+					| GT
+					| LT
+					| GTEQ
+					| LTEQ
+					| NEQ
 					;
 /*Expression Block*/
 Expr:	
@@ -106,8 +108,8 @@ Expr:
 	| Assignment
 	;
 %%
-#include"lex.yy.c"
-#include<ctype.h>
+#include "lex.yy.c"
+#include <defs.h>
 int count=0;
 int main(int argc, char *argv[])
 {
