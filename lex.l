@@ -68,6 +68,8 @@ int yywrap();
 [\/\*][.]*[\/\*]	return COMMENT;
 . 				;
 [ \n\t\f\r\v]			;
+":" 		return COLON;
+"break" 	return BREAK;
 
 %%
 

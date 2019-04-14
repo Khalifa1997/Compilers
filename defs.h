@@ -52,3 +52,5 @@
 #define CHARVALUE 44
 #define STRINGVALUE 45
 
+#define COLON 46
+#define BREAK 47

@@ -8,7 +8,7 @@ extern FILE *fp;
 %token FOR WHILE 
 %token IF ELSE
 %token RBRACE LBRACE RBRACKET IDENTIFIER LBRACKET
-
+%token SWITCH CASE COLON BREAK
 
 
 %union {
@@ -108,6 +108,20 @@ Expr:
 	| NOT LBRACKET Expr RBRACKET
 	| Assignment
 	;
+
+
+/*Switch Case Block*/
+
+SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE 
+	;
+B: Cas | Cas Def 
+	;
+Cas : Cas Cas | CASE NUM COLON Expr SEMICOLON | BREAK SEMICOLON
+	;
+
+Def: DEFAULT COLON Expr SEMICOLON BREAK SEMICOLON
+	;
+
 %%
 #include "lex.yy.c"
 
