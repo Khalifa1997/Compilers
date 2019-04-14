@@ -33,20 +33,25 @@ Declaration: Type IDENTIFIER SEMICOLON
 	| error	
 	;
 
+AnyValue: INTVALUE
+		| FLOATVALUE
+		| STRINGVALUE
+		|CHARVALUE
+		;
 /* Assignment block */
 Assignment: IDENTIFIER PLUS Assignment
 	| IDENTIFIER MINUS Assignment
 	| IDENTIFIER MULTIPLY Assignment
 	| IDENTIFIER DIVIDE Assignment	
-	| INTVALUE PLUS Assignment
-	| INTVALUE MINUS Assignment
-	| INTVALUE MULTIPLY Assignment
-	| INTVALUE DIVIDE Assignment
+	| AnyValue PLUS Assignment
+	| AnyValue MINUS Assignment
+	| AnyValue MULTIPLY Assignment
+	| AnyValue DIVIDE Assignment
 	| LBRACKET Assignment RBRACKET
 	| MINUS LBRACKET Assignment RBRACKET
-	| MINUS INTVALUE
+	| MINUS AnyValue
 	| MINUS IDENTIFIER
-	| INTVALUE
+	| AnyValue
 	| IDENTIFIER
 	;
 
