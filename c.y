@@ -79,14 +79,11 @@ Type:	INT
 
 /* Loop Blocks */ 
 WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Stmt RBRACE
-	| WHILE LBRACKET Expr RBRACKET CompoundStmt 
 	;
 
 /* For Block */
 ForStmt: FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET Stmt 
-       | FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET CompoundStmt 
        | FOR LBRACKET Expr RBRACKET Stmt 
-       | FOR LBRACKET Expr RBRACKET CompoundStmt 
 	;
 
 /* IfStmt Block */
@@ -95,7 +92,7 @@ IfStmt: IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE
 	;
 
 /* Print Function */
-PrintFunc: PRINTF LBRACKET Expr RBRACKET ';'
+PrintFunc: PRINTF LBRACKET Expr RBRACKET SEMICOLON
 	;
 Operations:EQEQ
 					|GT
