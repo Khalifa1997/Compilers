@@ -44,10 +44,10 @@ int yywrap();
 ("]")			return RSQUARE;
 ("{")			return LBRACE;
 ("}")			return RBRACE;
-";"			return SEMICOLON;
-","			return COMMA;
-"("			return LBRACKET;
-")"			return RBRACKET;
+";"				return SEMICOLON;
+","				return COMMA;
+"("				return LBRACKET;
+")"				return RBRACKET;
 
 
 "switch"		return SWITCH;

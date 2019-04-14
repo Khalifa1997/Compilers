@@ -20,7 +20,7 @@ extern FILE *fp;
 }
 %right '='
 %left AND OR
-%left '<' '>' LE GE EQ NE LT GT
+%left EQEQ LTEQ GT GTEQ LT NEQ
 %%
 
 start:Declaration
