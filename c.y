@@ -36,7 +36,7 @@ Declaration: Type IDENTIFIER SEMICOLON
 AnyValue: INTVALUE
 		| FLOATVALUE
 		| STRINGVALUE
-		|CHARVALUE
+		| CHARVALUE
 		;
 /* Assignment block */
 Assignment: IDENTIFIER PLUS Assignment
