@@ -4,13 +4,12 @@
 extern FILE *fp;
 %}
 
-%token INT FLOAT CHAR VOID STRING SEMICOLON
+%token INT FLOAT CHAR VOID STRING SEMICOLON RETURN
 %token FOR WHILE 
-%token IF ELSE 
-%token STRUCT 
+%token IF ELSE
 %token RBRACE LBRACE RBRACKET IDENTIFIER LBRACKET
-%token INCLUDE
-%token DOT
+
+
 
 %union {
   int intVal;
