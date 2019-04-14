@@ -29,13 +29,13 @@ int yywrap();
 
 "++"			return INC; 
 "--"			return DEC;
-"<"			return LT;   
+"<"				return LT;   
 "<="			return LTEQ; 
-">"			return GT;     
+">"				return GT;     
 ">="			return GTEQ; 
 "=="			return EQEQ; 
 "!="			return NEQ; 
-"="			return EQ;
+"="				return EQ;
 "&&"			return AND_AND;
 "||"			return OR_OR;
 "!" 			return NOT; 

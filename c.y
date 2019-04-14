@@ -88,24 +88,27 @@ ForStmt: FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET Stmt
 	;
 
 /* IfStmt Block */
-IfStmt : IF LBRACKET Expr RBRACKET 
+IfStmt: IF LBRACKET Expr RBRACKET 
 	 	Stmt 
 	;
 
 /* Print Function */
-PrintFunc : PRINTF LBRACKET Expr RBRACKET ';'
+PrintFunc: PRINTF LBRACKET Expr RBRACKET ';'
 	;
-
+Operations:EQEQ
+					|GT
+					|LT
+					|GTEQ
+					|LTEQ
+					|NEQ
+					;
 /*Expression Block*/
 Expr:	
-	| Expr LE Expr 
-	| Expr GE Expr
-	| Expr NE Expr
-	| Expr EQ Expr
-	| Expr GT Expr
-	| Expr LT Expr
+	| Expr Operations Expr
+	| Expr AND_AND Expr
+	| Expr OR_OR Expr
+	| NOT LBRACKET Expr RBRACKET
 	| Assignment
-	| ArrayUsage
 	;
 %%
 #include"lex.yy.c"
