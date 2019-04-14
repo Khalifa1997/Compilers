@@ -4,7 +4,7 @@
 extern FILE *fp;
 %}
 
-%token INT FLOAT CHAR VOID STRING SEMICOLON RETURN
+%token INT FLOAT CHAR VOID SEMICOLON RETURN STRING
 %token FOR WHILE 
 %token IF ELSE
 %token RBRACE LBRACE RBRACKET IDENTIFIER LBRACKET
@@ -15,12 +15,14 @@ extern FILE *fp;
   int intVal;
   char charVal;
   float floatVal;
-  string strVal;
+  char* stringVal;
 }
 %token <charVal>  CHARVALUE
 %token <intVal>   INTVALUE
 %token <floatVal> FLOATVALUE
 %token <strVal> STRINGVALUE
+
+
 
 %right EQ NOT INC DEC
 %left PLUS MULTIPLY MINUS DIVIDE AND_AND OR_OR
@@ -108,7 +110,7 @@ Expr:
 	;
 %%
 #include "lex.yy.c"
-#include <defs.h>
+
 int count=0;
 int main(int argc, char *argv[])
 {

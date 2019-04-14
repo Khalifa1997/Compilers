@@ -2,3 +2,6 @@
 .vscode/ipch/5125a5ddf722bdc4/main.ipch
 lex.yy.c
 y.tab.c
+a.out
+.vscode/ipch/754a9016a2ac0e07/mmap_address.bin
+.vscode/ipch/754a9016a2ac0e07/y.tab.ipch
