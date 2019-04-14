@@ -4,7 +4,7 @@
 extern FILE *fp;
 %}
 
-%token INT FLOAT CHAR DOUBLE VOID
+%token INT FLOAT CHAR VOID
 %token FOR WHILE 
 %token IF ELSE PRINTF 
 %token STRUCT 
@@ -12,71 +12,45 @@ extern FILE *fp;
 %token INCLUDE
 %token DOT
 
+%union {
+  int INTVALUE;
+  char CHARVALUE;
+  float FLOATVALUE;
+  string charVal;
+}
 %right '='
 %left AND OR
 %left '<' '>' LE GE EQ NE LT GT
 %%
 
-start:	Function 
-	| Declaration
+start:Declaration
 	;
 
 /* Declaration block */
-Declaration: Type Assignment ';' 
-	| Assignment ';'  	
-	| FunctionCall ';' 	
-	| ArrayUsage ';'	
-	| Type ArrayUsage ';'   
-	| StructStmt ';'	
+Declaration: Type IDENTIFIER SEMICOLON
+    | Type IDENTIFIER EQ Assignment SEMICOLON
+	| IDENTIFIER EQ Assignment SEMICOLON
 	| error	
 	;
 
 /* Assignment block */
-Assignment: ID '=' Assignment
-	| ID '=' FunctionCall
-	| ID '=' ArrayUsage
-	| ArrayUsage '=' Assignment
-	| ID ',' Assignment
-	| NUM ',' Assignment
-	| ID '+' Assignment
-	| ID '-' Assignment
-	| ID '*' Assignment
-	| ID '/' Assignment	
-	| NUM '+' Assignment
-	| NUM '-' Assignment
-	| NUM '*' Assignment
-	| NUM '/' Assignment
-	| '\'' Assignment '\''	
-	| '(' Assignment ')'
-	| '-' '(' Assignment ')'
-	| '-' NUM
-	| '-' ID
-	|   NUM
-	|   ID
+Assignment: IDENTIFIER PLUS Assignment
+	| IDENTIFIER MINUS Assignment
+	| IDENTIFIER MULTIPLY Assignment
+	| IDENTIFIER DIVIDE Assignment	
+	| INTVALUE PLUS Assignment
+	| INTVALUE MINUS Assignment
+	| INTVALUE MULTIPLY Assignment
+	| INTVALUE DIVIDE Assignment
+	| LBRACKET Assignment RBRACKET
+	| MINUS LBRACKET Assignment RBRACKET
+	| MINUS INTVALUE
+	| MINUS IDENTIFIER
+	| INTVALUE
+	| IDENTIFIER
 	;
 
-/* Function Call Block */
-FunctionCall : ID'('')'
-	| ID'('Assignment')'
-	;
 
-/* Array Usage */
-ArrayUsage : ID'['Assignment']'
-	;
-
-/* Function block */
-Function: Type ID '(' ArgListOpt ')' CompoundStmt 
-	;
-ArgListOpt: ArgList
-	|
-	;
-ArgList:  ArgList ',' Arg
-	| Arg
-	;
-Arg:	Type ID
-	;
-CompoundStmt:	'{' StmtList '}'
-	;
 StmtList:	StmtList Stmt
 	|
 	;
@@ -92,33 +66,29 @@ Stmt:	WhileStmt
 Type:	INT 
 	| FLOAT
 	| CHAR
-	| DOUBLE
+	| STRING
 	| VOID 
 	;
 
 /* Loop Blocks */ 
-WhileStmt: WHILE '(' Expr ')' Stmt  
-	| WHILE '(' Expr ')' CompoundStmt 
+WhileStmt: WHILE LBRACKET Expr RBRACKET Stmt  
+	| WHILE LBRACKET Expr RBRACKET CompoundStmt 
 	;
 
 /* For Block */
-ForStmt: FOR '(' Expr ';' Expr ';' Expr ')' Stmt 
-       | FOR '(' Expr ';' Expr ';' Expr ')' CompoundStmt 
-       | FOR '(' Expr ')' Stmt 
-       | FOR '(' Expr ')' CompoundStmt 
+ForStmt: FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET Stmt 
+       | FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET CompoundStmt 
+       | FOR LBRACKET Expr RBRACKET Stmt 
+       | FOR LBRACKET Expr RBRACKET CompoundStmt 
 	;
 
 /* IfStmt Block */
-IfStmt : IF '(' Expr ')' 
+IfStmt : IF LBRACKET Expr RBRACKET 
 	 	Stmt 
 	;
 
-/* Struct Statement */
-StructStmt : STRUCT ID '{' Type Assignment '}'  
-	;
-
 /* Print Function */
-PrintFunc : PRINTF '(' Expr ')' ';'
+PrintFunc : PRINTF LBRACKET Expr RBRACKET ';'
 	;
 
 /*Expression Block*/

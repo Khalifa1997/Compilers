@@ -8,41 +8,66 @@ int yywrap();
 %}
 
 %%
+
+"void"			return VOID;
+"int"			return INT;
+"float"			return FLOAT;
+"string"		return STRING;
+"char"			return CHAR;
+"boolean"		return BOOLEAN;
+
 "if"			return IF;
 "else"			return ELSE;
 "while"			return WHILE;
 "return"		return RETURN;
-"void"			return VOID;
-"int"			return INT;
-"float"			return FLOAT;
+
+"+"			return PLUS;     
+"-"			return MINUS;     
+"*"			return MULTIPLY;     
+"/"			return DIVIDE; 
+
+
 "++"			return INC; 
 "--"			return DEC;
-"+"				return PLUS;     
-"-"				return MINUS;     
-"*"				return MULTIPLY;     
-"/"				return DIVIDE;    
-"<"				return LT;   
+"<"			return LT;   
 "<="			return LTEQ; 
-">"				return GT;     
+">"			return GT;     
 ">="			return GTEQ; 
 "=="			return EQEQ; 
 "!="			return NEQ; 
-"="				return EQ;     
+"="			return EQ;
+"&&"			return AND_AND;
+"||"			return OR_OR;
+"!" 			return NOT; 
+    
 ("[")			return LSQUARE;
 ("]")			return RSQUARE;
 ("{")			return LBRACE;
 ("}")			return RBRACE;
-";"				return SEMICOLON;
-","				return COMMA;
-"("				return LBRACKET;
-")"				return RBRACKET;
+";"			return SEMICOLON;
+","			return COMMA;
+"("			return LBRACKET;
+")"			return RBRACKET;
+
+
+"switch"		return SWITCH;
+"case"			return CASE;
+"do"			return DO;
+"true" 			return TRUE;
+"false"			return FALSE;
+
+
 [0-9]+ 			return INTVALUE;
-[0-9]+\.[0-9]+	return FLOATVALUE;
+[0-9]+\.[0-9]+		return FLOATVALUE;
 [a-zA-Z][a-zA-Z0-9_]*	return IDENTIFIER;
 \'[a-zA-Z]\'		return CHARVALUE;
-\".*\"	return STRING;
+\".*\"			return STRINGVALUE;
+
+
+
+[\/\*][.]*[\/\*]	return COMMENT;
 . 				;
-[ \n\t]				;
+[ \n\t\f\r\v]			;
 
 %%
 

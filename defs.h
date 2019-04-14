@@ -1,33 +1,54 @@
-#define IF 1
-#define ELSE 2
-#define WHILE 3
-#define RETURN 4
-#define VOID 5
-#define INT 6
-#define FLOAT 7
-#define INC 8
-#define DEC 9
-#define PLUS 10
-#define MINUS 11
-#define MULTIPLY 12
-#define DIVIDE 13
-#define LT 14
-#define LTEQ 15
-#define GT 16
-#define GTEQ 17
-#define EQEQ 18
-#define NEQ 19
-#define EQ 20
-#define LSQUARE 21
-#define RSQUARE 22
-#define LBRACE 23
-#define RBRACE 24
-#define SEMICOLON 25
-#define COMMA 26
-#define LBRACKET 27
-#define RBRACKET 28
-#define INTVALUE 29
-#define FLOATVALUE 30
-#define IDENTIFIER 31
-#define CHARVALUE 32
-#define STRING 33
+#define VOID 1
+#define INT 2
+#define COMMENT 3
+#define STRING 4
+#define FLOAT 5
+#define CHAR 6
+#define BOOLEAN 7
+
+#define IF 8
+#define ELSE 9
+#define WHILE 10
+#define RETURN 11
+
+#define PLUS 12
+#define MINUS 13
+#define MULTIPLY 14
+#define DIVIDE 15
+
+#define INC 16
+#define DEC 17
+#define LT 18
+#define LTEQ 19
+#define GT 20
+#define GTEQ 21
+#define EQEQ 22
+#define NEQ 23
+#define EQ 24
+#define AND_AND 25
+#define OR_OR 26
+#define NOT 27
+
+#define LSQUARE 28
+#define RSQUARE 29
+#define LBRACE 30
+#define RBRACE 31
+#define SEMICOLON 32
+#define COMMA 33
+#define LBRACKET 34
+#define RBRACKET 35
+
+
+#define SWITCH 36
+#define CASE 37
+#define DO 38
+#define TRUE 39
+#define FALSE 40
+
+
+#define INTVALUE 41
+#define FLOATVALUE 42
+#define IDENTIFIER 43
+#define CHARVALUE 44
+#define STRINGVALUE 45
+
