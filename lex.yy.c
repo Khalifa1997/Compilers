@@ -553,7 +553,7 @@ char *yytext;
 #include <stdlib.h> 
 #include <string.h>   
 #include "y.tab.h"
-int yywrap();
+int yylex();
 #line 558 "lex.yy.c"
 #line 559 "lex.yy.c"
 

@@ -1,7 +1,9 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-extern FILE *fp;
+
+int yylex();
+
 %}
 %token INT FLOAT CHAR VOID SEMICOLON RETURN STRING DEFAULT
 %token FOR WHILE 
@@ -123,22 +125,17 @@ Def: DEFAULT COLON Expr SEMICOLON BREAK SEMICOLON
 	;
 
 %%
-#include "lex.yy.c"
 
-int count=0;
-int main(int argc, char *argv[])
-{
-	yyin = fopen(argv[1], "r");
-	
-   if(!yyparse())
-		printf("\nParsing complete\n");
-	else
-		printf("\nParsing failed\n");
-	
-	fclose(yyin);
-    return 0;
+
+
+int main (void) {
+	/* init symbol table */
+
+
+	return yyparse ();
 }
+
          
 yyerror(char *s) {
-	printf("%d : %s %s\n", yylineno, s, yytext );
+	printf("error\n");
 }         

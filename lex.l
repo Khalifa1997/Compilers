@@ -4,7 +4,7 @@
 #include <stdlib.h> 
 #include <string.h>   
 #include "y.tab.h"
-int yywrap();
+int yylex();
 %}
 
 %%
