@@ -16,10 +16,10 @@ extern FILE *fp;
   int INTVALUE;
   char CHARVALUE;
   float FLOATVALUE;
-  string charVal;
+  string STRINGVALUE;
 }
-%right '='
-%left AND OR
+%right EQ
+%left AND OR //?
 %left EQEQ LTEQ GT GTEQ LT NEQ
 %%
 
@@ -78,7 +78,7 @@ Type:	INT
 	;
 
 /* Loop Blocks */ 
-WhileStmt: WHILE LBRACKET Expr RBRACKET Stmt  
+WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Stmt RBRACE
 	| WHILE LBRACKET Expr RBRACKET CompoundStmt 
 	;
 
@@ -90,8 +90,8 @@ ForStmt: FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET Stmt
 	;
 
 /* IfStmt Block */
-IfStmt: IF LBRACKET Expr RBRACKET 
-	 	Stmt 
+IfStmt: IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE
+	|IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE ELSE RBRACE Stmt LBRACE
 	;
 
 /* Print Function */
