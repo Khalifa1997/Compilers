@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -66,26 +66,34 @@ extern int yydebug;
     CASE = 276,
     COLON = 277,
     BREAK = 278,
-    CHARVALUE = 279,
-    INTVALUE = 280,
-    FLOATVALUE = 281,
-    STRINGVALUE = 282,
-    EQ = 283,
-    NOT = 284,
-    INC = 285,
-    DEC = 286,
-    PLUS = 287,
-    MULTIPLY = 288,
-    MINUS = 289,
-    DIVIDE = 290,
-    AND_AND = 291,
-    OR_OR = 292,
-    EQEQ = 293,
-    LTEQ = 294,
-    GT = 295,
-    GTEQ = 296,
-    LT = 297,
-    NEQ = 298
+    BOOLEAN = 279,
+    LSQUARE = 280,
+    RSQUARE = 281,
+    COMMA = 282,
+    DO = 283,
+    TRUE = 284,
+    FALSE = 285,
+    COMMENT = 286,
+    CHARVALUE = 287,
+    INTVALUE = 288,
+    FLOATVALUE = 289,
+    STRINGVALUE = 290,
+    EQ = 291,
+    NOT = 292,
+    INC = 293,
+    DEC = 294,
+    PLUS = 295,
+    MULTIPLY = 296,
+    MINUS = 297,
+    DIVIDE = 298,
+    AND_AND = 299,
+    OR_OR = 300,
+    EQEQ = 301,
+    LTEQ = 302,
+    GT = 303,
+    GTEQ = 304,
+    LT = 305,
+    NEQ = 306
   };
 #endif
 /* Tokens.  */
@@ -110,30 +118,38 @@ extern int yydebug;
 #define CASE 276
 #define COLON 277
 #define BREAK 278
-#define CHARVALUE 279
-#define INTVALUE 280
-#define FLOATVALUE 281
-#define STRINGVALUE 282
-#define EQ 283
-#define NOT 284
-#define INC 285
-#define DEC 286
-#define PLUS 287
-#define MULTIPLY 288
-#define MINUS 289
-#define DIVIDE 290
-#define AND_AND 291
-#define OR_OR 292
-#define EQEQ 293
-#define LTEQ 294
-#define GT 295
-#define GTEQ 296
-#define LT 297
-#define NEQ 298
+#define BOOLEAN 279
+#define LSQUARE 280
+#define RSQUARE 281
+#define COMMA 282
+#define DO 283
+#define TRUE 284
+#define FALSE 285
+#define COMMENT 286
+#define CHARVALUE 287
+#define INTVALUE 288
+#define FLOATVALUE 289
+#define STRINGVALUE 290
+#define EQ 291
+#define NOT 292
+#define INC 293
+#define DEC 294
+#define PLUS 295
+#define MULTIPLY 296
+#define MINUS 297
+#define DIVIDE 298
+#define AND_AND 299
+#define OR_OR 300
+#define EQEQ 301
+#define LTEQ 302
+#define GT 303
+#define GTEQ 304
+#define LT 305
+#define NEQ 306
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 13 "c.y" /* yacc.c:1909  */
@@ -143,8 +159,10 @@ union YYSTYPE
   float floatVal;
   char* stringVal;
 
-#line 147 "y.tab.h" /* yacc.c:1909  */
+#line 163 "y.tab.h" /* yacc.c:1909  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
