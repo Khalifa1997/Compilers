@@ -125,8 +125,6 @@ Def: DEFAULT COLON Expr SEMICOLON BREAK SEMICOLON
 %%
 main()
 {
-	extern int yydepug();
-	yydepug =1;
  return(yyparse());
 }
 
