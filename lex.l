@@ -5,7 +5,6 @@
 #include <string.h>
 #include "y.tab.h"
 int yywrap();
-int current = 1;
 %}
 
 %%
