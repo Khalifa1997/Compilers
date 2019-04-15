@@ -5,6 +5,7 @@
 #include <string.h>
 #include "y.tab.h"
 int yywrap();
+int current = 1;
 %}
 
 %%
@@ -69,9 +70,10 @@ int yywrap();
 
 
 [\/\*][.]*[\/\*]	return COMMENT;
-[ \n\t\f\r\v]+			;
-. 				;
+\n				{current++}
+[ \t\f\r\v]+			;
 
+. 				;
 
 %%
 
