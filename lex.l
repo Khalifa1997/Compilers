@@ -70,7 +70,7 @@ int current = 1;
 
 
 [\/\*][.]*[\/\*]	return COMMENT;
-\n				{current++;}
+\n				;
 [ \t\f\r\v]+			;
 
 . 				;
