@@ -71,7 +71,7 @@ int current = 1;
 
 [\/\*][.]*[\/\*]	return COMMENT;
 \n				;
-[ |\t|\|f\r|\v]+			;
+[ |\t|\f|\r|\v]*			;
 
 . 				;
 
