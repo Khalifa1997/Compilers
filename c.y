@@ -123,6 +123,7 @@ Def: DEFAULT COLON Expr SEMICOLON BREAK SEMICOLON
 	;
 
 %%
+#include "lex.yy.c"
 
 int count=0;
 int main(int argc, char *argv[])
