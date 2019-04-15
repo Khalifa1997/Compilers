@@ -69,8 +69,9 @@ int yywrap();
 
 
 [\/\*][.]*[\/\*]	return COMMENT;
-. 				;
 [ \n\t\f\r\v]			;
+. 				;
+
 
 %%
 
