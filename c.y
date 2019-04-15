@@ -123,22 +123,18 @@ Def: DEFAULT COLON Expr SEMICOLON BREAK SEMICOLON
 	;
 
 %%
-#include "lex.yy.c"
-
-int count=0;
-int main(int argc, char *argv[])
+main()
 {
-	yyin = fopen(argv[1], "r");
-	
-   if(!yyparse())
-		printf("\nParsing complete\n");
-	else
-		printf("\nParsing failed\n");
-	
-	fclose(yyin);
-    return 0;
+ return(yyparse());
 }
-         
-yyerror(char *s) {
-	printf("%d : %s %s\n", yylineno, s, yytext );
-}         
+
+yyerror(s)
+char *s;
+{
+  fprintf(stderr, "%s\n",s);
+}
+
+yywrap()
+{
+  return(1);
+}
