@@ -133,8 +133,3 @@ char *s;
 {
   fprintf(stderr, "%s\n",s);
 }
-
-yywrap()
-{
-  return(1);
-}
