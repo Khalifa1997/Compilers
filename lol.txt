@@ -1,1 +1,2 @@
-ABBB
+int x ;
+x=5;

@@ -33,7 +33,7 @@ start:Declaration
 
 /* Declaration block */
 Declaration: Type IDENTIFIER SEMICOLON
-  | Type IDENTIFIER EQ Assignment SEMICOLON
+    | Type IDENTIFIER EQ Assignment SEMICOLON
 	| IDENTIFIER EQ Assignment SEMICOLON
 	| IDENTIFIER INC SEMICOLON
 	| IDENTIFIER DEC SEMICOLON
