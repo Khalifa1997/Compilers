@@ -28,8 +28,10 @@ extern FILE *fp;
 %left EQEQ LTEQ GT GTEQ LT NEQ
 %%
 
-start:Declaration
+start:Declarations
 	;
+Declarations: Declaration | Declarations Declaration
+;
 
 /* Declaration block */
 Declaration: Type IDENTIFIER SEMICOLON
@@ -37,7 +39,7 @@ Declaration: Type IDENTIFIER SEMICOLON
 	| IDENTIFIER EQ Assignment SEMICOLON
 	| IDENTIFIER INC SEMICOLON
 	| IDENTIFIER DEC SEMICOLON
-	| Declaration
+	| Stmt
 	| error	
 	;
 
@@ -68,6 +70,7 @@ Stmt:	WhileStmt
 	| Declaration
 	| ForStmt
 	| IfStmt
+	| DoWhileStmt
 	| SS
 	;
 
@@ -80,19 +83,33 @@ Type:	INT
 	;
 
 /* Loop Blocks */ 
-WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Stmt RBRACE
+WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
 	;
+
+DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+             ;
 
 /* For Block */
-ForStmt: FOR LBRACKET Expr SEMICOLON Expr SEMICOLON Expr RBRACKET Stmt 
-       | FOR LBRACKET Expr RBRACKET Stmt 
+ForStmt: FOR LBRACKET CustomExpForFirst SEMICOLON Expr SEMICOLON CustomExpForThird RBRACKET LBRACE Declarations RBRACE 
 	;
+CustomExpForFirst: Type IDENTIFIER EQ AnyValue 
+				| IDENTIFIER EQ AnyValue;
+CustomExpForThird: IDENTIFIER INC 
+				| IDENTIFIER DEC 
+				| IDENTIFIER INC EQ AnyValue 
+				| IDENTIFIER DEC EQ AnyValue 
+				| IDENTIFIER INC EQ IDENTIFIER 
+				| IDENTIFIER DEC EQ IDENTIFIER 
+				| IDENTIFIER DIVIDE EQ AnyValue
+				| IDENTIFIER MULTIPLY EQ AnyValue
+				| IDENTIFIER DIVIDE EQ IDENTIFIER
+				| IDENTIFIER MULTIPLY EQ IDENTIFIER
+				;
 
 /* IfStmt Block */
-IfStmt: IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE
-	|IF LBRACKET Expr RBRACKET RBRACE Stmt LBRACE ELSE RBRACE Stmt LBRACE
+IfStmt: IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+	|IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
 	;
-
 
 Operations: EQEQ
 					| GT
@@ -101,6 +118,7 @@ Operations: EQEQ
 					| LTEQ
 					| NEQ
 					;
+
 /*Expression Block*/
 Expr:	
 	| Expr Operations Expr
@@ -113,15 +131,16 @@ Expr:
 
 /*Switch Case Block*/
 
-SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE 
+SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE Cas RBRACE 
 	;
-B: Cas | Cas Def 
-	;
-Cas : Cas Cas | CASE AnyValue COLON Expr SEMICOLON | BREAK SEMICOLON
+Cas : Cas Cas
+  | CASE Assignment COLON Declarations BREAK SEMICOLON
+  | BREAK SEMICOLON
+	| CASE Assignment COLON BREAK SEMICOLON
+	| DEFAULT COLON Declarations BREAK SEMICOLON
+	| DEFAULT COLON BREAK SEMICOLON
 	;
 
-Def: DEFAULT COLON Expr SEMICOLON BREAK SEMICOLON
-	;
 
 %%
 main()

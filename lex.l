@@ -5,6 +5,7 @@
 #include <string.h>
 #include "y.tab.h"
 int yywrap();
+int line_number =1;
 %}
 
 %%
@@ -20,6 +21,7 @@ int yywrap();
 "else"			return ELSE;
 "while"			return WHILE;
 "return"		return RETURN;
+"for"	return FOR;
 
 "+"			return PLUS;     
 "-"			return MINUS;     
@@ -40,10 +42,10 @@ int yywrap();
 "||"			return OR_OR;
 "!" 			return NOT; 
     
-("[")			return LSQUARE;
-("]")			return RSQUARE;
-("{")			return LBRACE;
-("}")			return RBRACE;
+"["			return LSQUARE;
+"]"		return RSQUARE;
+"{"			return LBRACE;
+"}"			return RBRACE;
 ";"				return SEMICOLON;
 ","				return COMMA;
 "("				return LBRACKET;
@@ -69,7 +71,8 @@ int yywrap();
 
 
 [\/\*][.]*[\/\*]	return COMMENT;
-\n				;
+
+\n				{line_number++;}
 [\t|\f|\r|\v]*			;
 
 . 				;
