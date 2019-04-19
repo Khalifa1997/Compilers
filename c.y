@@ -76,6 +76,7 @@ Expr:
 	| Expr AND_AND Expr
 	| Expr OR_OR Expr
 	| NOT LBRACKET Expr RBRACKET
+	| LBRACKET Expr RBRACKET
 	| Assignment
 	;
 
