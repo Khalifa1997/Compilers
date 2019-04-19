@@ -56,6 +56,10 @@ Assignment: IDENTIFIER PLUS Assignment
 	| AnyValue MULTIPLY Assignment
 	| AnyValue DIVIDE Assignment
 	| LBRACKET Assignment RBRACKET
+	| LBRACKET Assignment RBRACKET PLUS Assignment
+	| LBRACKET Assignment RBRACKET MINUS Assignment
+	| LBRACKET Assignment RBRACKET MULTIPLY Assignment
+	| LBRACKET Assignment RBRACKET DIVIDE Assignment
 	| MINUS LBRACKET Assignment RBRACKET
 	| MINUS AnyValue
 	| MINUS IDENTIFIER
