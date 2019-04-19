@@ -83,6 +83,7 @@ Expr:
 Stmt:	WhileStmt
 	| ForStmt
 	| IfStmt
+	| DoWhileStmt
 	| SS
 	;
 
@@ -97,6 +98,9 @@ Type:	INT
 /* Loop Blocks */ 
 WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
 	;
+
+DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+             ;
 
 /* For Block */
 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Declaration RBRACE  
