@@ -76,7 +76,22 @@ Expr:
 	| Expr AND_AND Expr
 	| Expr OR_OR Expr
 	| NOT LBRACKET Expr RBRACKET
-	| Assignment
+	| LBRACKET Expr RBRACKET
+	| ExprAssignment
+	;
+ExprAssignment:IDENTIFIER PLUS ExprAssignment
+	| IDENTIFIER MINUS ExprAssignment
+	| IDENTIFIER MULTIPLY ExprAssignment
+	| IDENTIFIER DIVIDE ExprAssignment	
+	| AnyValue PLUS ExprAssignment
+	| AnyValue MINUS ExprAssignment
+	| AnyValue MULTIPLY ExprAssignment
+	| AnyValue DIVIDE ExprAssignment
+	| MINUS LBRACKET ExprAssignment RBRACKET
+	| MINUS AnyValue
+	| MINUS IDENTIFIER
+	| AnyValue
+	| IDENTIFIER
 	;
 
 
