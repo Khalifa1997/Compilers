@@ -85,6 +85,10 @@ Expr:
 	| Expr OR_OR Expr
 	| NOT LBRACKET Expr RBRACKET
 	| LBRACKET Expr RBRACKET
+	| LBRACKET Expr RBRACKET PLUS ExprAssignment
+	| LBRACKET Expr RBRACKET MINUS ExprAssignment
+	| LBRACKET Expr RBRACKET MULTIPLY ExprAssignment
+	| LBRACKET Expr RBRACKET DIVIDE ExprAssignment
 	| ExprAssignment
 	;
 ExprAssignment:IDENTIFIER PLUS ExprAssignment
