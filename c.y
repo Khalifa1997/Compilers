@@ -76,7 +76,6 @@ Expr:
 	| Expr AND_AND Expr
 	| Expr OR_OR Expr
 	| NOT LBRACKET Expr RBRACKET
-	| LBRACKET Expr RBRACKET
 	| Assignment
 	;
 
@@ -97,15 +96,18 @@ Type:	INT
 	;
 
 /* Loop Blocks */ 
-WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
 	;
+Temp1 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
 
 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
              ;
 
 /* For Block */
-ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Declaration RBRACE  
+ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE  
 	;
+	Temp2 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
+
 CustomExprForFirst: Type IDENTIFIER EQ Assignment
 					| IDENTIFIER EQ Assignment
 					;
@@ -133,7 +135,7 @@ SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
 B: Cas | Cas Cas;
 
 Cas :CASE Assignment COLON Declarations BREAK SEMICOLON
-  | BREAK SEMICOLON
+  	| BREAK SEMICOLON
 	| CASE Assignment COLON BREAK SEMICOLON
 	| DEFAULT COLON Declarations BREAK SEMICOLON
 	| DEFAULT COLON BREAK SEMICOLON
