@@ -1,0 +1,3549 @@
+Terminals unused in grammar
+
+   RETURN
+   BOOLEAN
+   LSQUARE
+   RSQUARE
+   COMMA
+   TRUE
+   FALSE
+   COMMENT
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: Declarations
+
+    2 Declarations: Declaration
+    3             | Declarations Declaration
+
+    4 Declaration: Type IDENTIFIER SEMICOLON
+    5            | Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | IDENTIFIER EQ Assignment SEMICOLON
+    7            | IDENTIFIER INC SEMICOLON
+    8            | IDENTIFIER DEC SEMICOLON
+    9            | Stmt
+   10            | error
+
+   11 AnyValue: INTVALUE
+   12         | FLOATVALUE
+   13         | STRINGVALUE
+   14         | CHARVALUE
+
+   15 Assignment: IDENTIFIER PLUS Assignment
+   16           | IDENTIFIER MINUS Assignment
+   17           | IDENTIFIER MULTIPLY Assignment
+   18           | IDENTIFIER DIVIDE Assignment
+   19           | AnyValue PLUS Assignment
+   20           | AnyValue MINUS Assignment
+   21           | AnyValue MULTIPLY Assignment
+   22           | AnyValue DIVIDE Assignment
+   23           | LBRACKET Assignment RBRACKET
+   24           | MINUS LBRACKET Assignment RBRACKET
+   25           | MINUS AnyValue
+   26           | MINUS IDENTIFIER
+   27           | AnyValue
+   28           | IDENTIFIER
+
+   29 Expr: Expr EQEQ Expr
+   30     | Expr GT Expr
+   31     | Expr GTEQ Expr
+   32     | Expr LT Expr
+   33     | Expr LTEQ Expr
+   34     | Expr NEQ Expr
+   35     | Expr AND_AND Expr
+   36     | Expr OR_OR Expr
+   37     | NOT LBRACKET Expr RBRACKET
+   38     | Assignment
+
+   39 Stmt: WhileStmt
+   40     | ForStmt
+   41     | IfStmt
+   42     | DoWhileStmt
+   43     | SS
+
+   44 Type: INT
+   45     | FLOAT
+   46     | CHAR
+   47     | STRING
+   48     | VOID
+
+   49 WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+
+   50 Temp1: Declarations
+   51      | Declarations BREAK SEMICOLON
+   52      | BREAK SEMICOLON
+
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+
+   55 Temp2: Declarations
+   56      | Declarations BREAK SEMICOLON
+   57      | BREAK SEMICOLON
+
+   58 CustomExprForFirst: Type IDENTIFIER EQ Assignment
+   59                   | IDENTIFIER EQ Assignment
+
+   60 CustomExprForThird: IDENTIFIER INC
+   61                   | IDENTIFIER DEC
+   62                   | IDENTIFIER INC EQ AnyValue
+   63                   | IDENTIFIER INC EQ IDENTIFIER
+   64                   | IDENTIFIER DEC EQ AnyValue
+   65                   | IDENTIFIER DEC EQ IDENTIFIER
+   66                   | IDENTIFIER MULTIPLY EQ AnyValue
+   67                   | IDENTIFIER MULTIPLY EQ IDENTIFIER
+   68                   | IDENTIFIER DIVIDE EQ AnyValue
+   69                   | IDENTIFIER DIVIDE EQ IDENTIFIER
+
+   70 IfStmt: IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+
+   72 SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+   73 B: Cas
+   74  | Cas Cas
+
+   75 Cas: CASE Assignment COLON Declarations BREAK SEMICOLON
+   76    | BREAK SEMICOLON
+   77    | CASE Assignment COLON BREAK SEMICOLON
+   78    | DEFAULT COLON Declarations BREAK SEMICOLON
+   79    | DEFAULT COLON BREAK SEMICOLON
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 10
+INT (258) 44
+FLOAT (259) 45
+CHAR (260) 46
+VOID (261) 48
+SEMICOLON (262) 4 5 6 7 8 51 52 53 54 56 57 75 76 77 78 79
+RETURN (263)
+STRING (264) 47
+DEFAULT (265) 78 79
+FOR (266) 54
+WHILE (267) 49 53
+IF (268) 70 71
+ELSE (269) 71
+RBRACE (270) 49 53 54 70 71 72
+LBRACE (271) 49 53 54 70 71 72
+RBRACKET (272) 23 24 37 49 53 54 70 71 72
+IDENTIFIER (273) 4 5 6 7 8 15 16 17 18 26 28 58 59 60 61 62 63 64 65
+    66 67 68 69 72
+LBRACKET (274) 23 24 37 49 53 54 70 71 72
+SWITCH (275) 72
+CASE (276) 75 77
+COLON (277) 75 77 78 79
+BREAK (278) 51 52 56 57 75 76 77 78 79
+BOOLEAN (279)
+LSQUARE (280)
+RSQUARE (281)
+COMMA (282)
+DO (283) 53
+TRUE (284)
+FALSE (285)
+COMMENT (286)
+CHARVALUE (287) 14
+INTVALUE (288) 11
+FLOATVALUE (289) 12
+STRINGVALUE (290) 13
+EQ (291) 5 6 58 59 62 63 64 65 66 67 68 69
+NOT (292) 37
+INC (293) 7 60 62 63
+DEC (294) 8 61 64 65
+PLUS (295) 15 19
+MULTIPLY (296) 17 21 66 67
+MINUS (297) 16 20 24 25 26
+DIVIDE (298) 18 22 68 69
+AND_AND (299) 35
+OR_OR (300) 36
+EQEQ (301) 29
+LTEQ (302) 33
+GT (303) 30
+GTEQ (304) 31
+LT (305) 32
+NEQ (306) 34
+
+
+Nonterminals, with rules where they appear
+
+$accept (52)
+    on left: 0
+start (53)
+    on left: 1, on right: 0
+Declarations (54)
+    on left: 2 3, on right: 1 3 50 51 53 55 56 70 71 75 78
+Declaration (55)
+    on left: 4 5 6 7 8 9 10, on right: 2 3
+AnyValue (56)
+    on left: 11 12 13 14, on right: 19 20 21 22 25 27 62 64 66 68
+Assignment (57)
+    on left: 15 16 17 18 19 20 21 22 23 24 25 26 27 28, on right: 5
+    6 15 16 17 18 19 20 21 22 23 24 38 58 59 75 77
+Expr (58)
+    on left: 29 30 31 32 33 34 35 36 37 38, on right: 29 30 31 32 33
+    34 35 36 37 49 53 54 70 71
+Stmt (59)
+    on left: 39 40 41 42 43, on right: 9
+Type (60)
+    on left: 44 45 46 47 48, on right: 4 5 58
+WhileStmt (61)
+    on left: 49, on right: 39
+Temp1 (62)
+    on left: 50 51 52, on right: 49
+DoWhileStmt (63)
+    on left: 53, on right: 42
+ForStmt (64)
+    on left: 54, on right: 40
+Temp2 (65)
+    on left: 55 56 57, on right: 54
+CustomExprForFirst (66)
+    on left: 58 59, on right: 54
+CustomExprForThird (67)
+    on left: 60 61 62 63 64 65 66 67 68 69, on right: 54
+IfStmt (68)
+    on left: 70 71, on right: 41
+SS (69)
+    on left: 72, on right: 43
+B (70)
+    on left: 73 74, on right: 72
+Cas (71)
+    on left: 75 76 77 78 79, on right: 73 74
+
+
+State 0
+
+    0 $accept: . start $end
+    1 start: . Declarations
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    start         go to state 13
+    Declarations  go to state 14
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 1
+
+   10 Declaration: error .
+
+    $default  reduce using rule 10 (Declaration)
+
+
+State 2
+
+   44 Type: INT .
+
+    $default  reduce using rule 44 (Type)
+
+
+State 3
+
+   45 Type: FLOAT .
+
+    $default  reduce using rule 45 (Type)
+
+
+State 4
+
+   46 Type: CHAR .
+
+    $default  reduce using rule 46 (Type)
+
+
+State 5
+
+   48 Type: VOID .
+
+    $default  reduce using rule 48 (Type)
+
+
+State 6
+
+   47 Type: STRING .
+
+    $default  reduce using rule 47 (Type)
+
+
+State 7
+
+   54 ForStmt: FOR . LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+
+    LBRACKET  shift, and go to state 23
+
+
+State 8
+
+   49 WhileStmt: WHILE . LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+
+    LBRACKET  shift, and go to state 24
+
+
+State 9
+
+   70 IfStmt: IF . LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | IF . LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+
+    LBRACKET  shift, and go to state 25
+
+
+State 10
+
+    6 Declaration: IDENTIFIER . EQ Assignment SEMICOLON
+    7            | IDENTIFIER . INC SEMICOLON
+    8            | IDENTIFIER . DEC SEMICOLON
+
+    EQ   shift, and go to state 26
+    INC  shift, and go to state 27
+    DEC  shift, and go to state 28
+
+
+State 11
+
+   72 SS: SWITCH . LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    LBRACKET  shift, and go to state 29
+
+
+State 12
+
+   53 DoWhileStmt: DO . LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+
+    LBRACE  shift, and go to state 30
+
+
+State 13
+
+    0 $accept: start . $end
+
+    $end  shift, and go to state 31
+
+
+State 14
+
+    1 start: Declarations .  [$end]
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    $end  reduce using rule 1 (start)
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 15
+
+    2 Declarations: Declaration .
+
+    $default  reduce using rule 2 (Declarations)
+
+
+State 16
+
+    9 Declaration: Stmt .
+
+    $default  reduce using rule 9 (Declaration)
+
+
+State 17
+
+    4 Declaration: Type . IDENTIFIER SEMICOLON
+    5            | Type . IDENTIFIER EQ Assignment SEMICOLON
+
+    IDENTIFIER  shift, and go to state 33
+
+
+State 18
+
+   39 Stmt: WhileStmt .
+
+    $default  reduce using rule 39 (Stmt)
+
+
+State 19
+
+   42 Stmt: DoWhileStmt .
+
+    $default  reduce using rule 42 (Stmt)
+
+
+State 20
+
+   40 Stmt: ForStmt .
+
+    $default  reduce using rule 40 (Stmt)
+
+
+State 21
+
+   41 Stmt: IfStmt .
+
+    $default  reduce using rule 41 (Stmt)
+
+
+State 22
+
+   43 Stmt: SS .
+
+    $default  reduce using rule 43 (Stmt)
+
+
+State 23
+
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   54 ForStmt: FOR LBRACKET . CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   58 CustomExprForFirst: . Type IDENTIFIER EQ Assignment
+   59                   | . IDENTIFIER EQ Assignment
+
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    IDENTIFIER  shift, and go to state 34
+
+    Type                go to state 35
+    CustomExprForFirst  go to state 36
+
+
+State 24
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+   49 WhileStmt: WHILE LBRACKET . Expr RBRACKET LBRACE Temp1 RBRACE
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 47
+
+
+State 25
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+   70 IfStmt: IF LBRACKET . Expr RBRACKET LBRACE Declarations RBRACE
+   71       | IF LBRACKET . Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 48
+
+
+State 26
+
+    6 Declaration: IDENTIFIER EQ . Assignment SEMICOLON
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 49
+
+
+State 27
+
+    7 Declaration: IDENTIFIER INC . SEMICOLON
+
+    SEMICOLON  shift, and go to state 50
+
+
+State 28
+
+    8 Declaration: IDENTIFIER DEC . SEMICOLON
+
+    SEMICOLON  shift, and go to state 51
+
+
+State 29
+
+   72 SS: SWITCH LBRACKET . IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    IDENTIFIER  shift, and go to state 52
+
+
+State 30
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   53            | DO LBRACE . Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    Declarations  go to state 53
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 31
+
+    0 $accept: start $end .
+
+    $default  accept
+
+
+State 32
+
+    3 Declarations: Declarations Declaration .
+
+    $default  reduce using rule 3 (Declarations)
+
+
+State 33
+
+    4 Declaration: Type IDENTIFIER . SEMICOLON
+    5            | Type IDENTIFIER . EQ Assignment SEMICOLON
+
+    SEMICOLON  shift, and go to state 54
+    EQ         shift, and go to state 55
+
+
+State 34
+
+   59 CustomExprForFirst: IDENTIFIER . EQ Assignment
+
+    EQ  shift, and go to state 56
+
+
+State 35
+
+   58 CustomExprForFirst: Type . IDENTIFIER EQ Assignment
+
+    IDENTIFIER  shift, and go to state 57
+
+
+State 36
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst . SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+
+    SEMICOLON  shift, and go to state 58
+
+
+State 37
+
+   15 Assignment: IDENTIFIER . PLUS Assignment
+   16           | IDENTIFIER . MINUS Assignment
+   17           | IDENTIFIER . MULTIPLY Assignment
+   18           | IDENTIFIER . DIVIDE Assignment
+   28           | IDENTIFIER .  [SEMICOLON, RBRACKET, COLON, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+
+    PLUS      shift, and go to state 59
+    MULTIPLY  shift, and go to state 60
+    MINUS     shift, and go to state 61
+    DIVIDE    shift, and go to state 62
+
+    $default  reduce using rule 28 (Assignment)
+
+
+State 38
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   23           | LBRACKET . Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 63
+
+
+State 39
+
+   14 AnyValue: CHARVALUE .
+
+    $default  reduce using rule 14 (AnyValue)
+
+
+State 40
+
+   11 AnyValue: INTVALUE .
+
+    $default  reduce using rule 11 (AnyValue)
+
+
+State 41
+
+   12 AnyValue: FLOATVALUE .
+
+    $default  reduce using rule 12 (AnyValue)
+
+
+State 42
+
+   13 AnyValue: STRINGVALUE .
+
+    $default  reduce using rule 13 (AnyValue)
+
+
+State 43
+
+   37 Expr: NOT . LBRACKET Expr RBRACKET
+
+    LBRACKET  shift, and go to state 64
+
+
+State 44
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   24 Assignment: MINUS . LBRACKET Assignment RBRACKET
+   25           | MINUS . AnyValue
+   26           | MINUS . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 65
+    LBRACKET     shift, and go to state 66
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+
+    AnyValue  go to state 67
+
+
+State 45
+
+   19 Assignment: AnyValue . PLUS Assignment
+   20           | AnyValue . MINUS Assignment
+   21           | AnyValue . MULTIPLY Assignment
+   22           | AnyValue . DIVIDE Assignment
+   27           | AnyValue .  [SEMICOLON, RBRACKET, COLON, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+
+    PLUS      shift, and go to state 68
+    MULTIPLY  shift, and go to state 69
+    MINUS     shift, and go to state 70
+    DIVIDE    shift, and go to state 71
+
+    $default  reduce using rule 27 (Assignment)
+
+
+State 46
+
+   38 Expr: Assignment .
+
+    $default  reduce using rule 38 (Expr)
+
+
+State 47
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+   49 WhileStmt: WHILE LBRACKET Expr . RBRACKET LBRACE Temp1 RBRACE
+
+    RBRACKET  shift, and go to state 72
+    AND_AND   shift, and go to state 73
+    OR_OR     shift, and go to state 74
+    EQEQ      shift, and go to state 75
+    LTEQ      shift, and go to state 76
+    GT        shift, and go to state 77
+    GTEQ      shift, and go to state 78
+    LT        shift, and go to state 79
+    NEQ       shift, and go to state 80
+
+
+State 48
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+   70 IfStmt: IF LBRACKET Expr . RBRACKET LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr . RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+
+    RBRACKET  shift, and go to state 81
+    AND_AND   shift, and go to state 73
+    OR_OR     shift, and go to state 74
+    EQEQ      shift, and go to state 75
+    LTEQ      shift, and go to state 76
+    GT        shift, and go to state 77
+    GTEQ      shift, and go to state 78
+    LT        shift, and go to state 79
+    NEQ       shift, and go to state 80
+
+
+State 49
+
+    6 Declaration: IDENTIFIER EQ Assignment . SEMICOLON
+
+    SEMICOLON  shift, and go to state 82
+
+
+State 50
+
+    7 Declaration: IDENTIFIER INC SEMICOLON .
+
+    $default  reduce using rule 7 (Declaration)
+
+
+State 51
+
+    8 Declaration: IDENTIFIER DEC SEMICOLON .
+
+    $default  reduce using rule 8 (Declaration)
+
+
+State 52
+
+   72 SS: SWITCH LBRACKET IDENTIFIER . RBRACKET LBRACE B RBRACE
+
+    RBRACKET  shift, and go to state 83
+
+
+State 53
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   53            | DO LBRACE Declarations . RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    RBRACE      shift, and go to state 84
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 54
+
+    4 Declaration: Type IDENTIFIER SEMICOLON .
+
+    $default  reduce using rule 4 (Declaration)
+
+
+State 55
+
+    5 Declaration: Type IDENTIFIER EQ . Assignment SEMICOLON
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 85
+
+
+State 56
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   59 CustomExprForFirst: IDENTIFIER EQ . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 86
+
+
+State 57
+
+   58 CustomExprForFirst: Type IDENTIFIER . EQ Assignment
+
+    EQ  shift, and go to state 87
+
+
+State 58
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON . Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 88
+
+
+State 59
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   15           | IDENTIFIER PLUS . Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 89
+
+
+State 60
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   17           | IDENTIFIER MULTIPLY . Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 90
+
+
+State 61
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   16           | IDENTIFIER MINUS . Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 91
+
+
+State 62
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   18           | IDENTIFIER DIVIDE . Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 92
+
+
+State 63
+
+   23 Assignment: LBRACKET Assignment . RBRACKET
+
+    RBRACKET  shift, and go to state 93
+
+
+State 64
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   37     | NOT LBRACKET . Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 94
+
+
+State 65
+
+   26 Assignment: MINUS IDENTIFIER .
+
+    $default  reduce using rule 26 (Assignment)
+
+
+State 66
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   24           | MINUS LBRACKET . Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 95
+
+
+State 67
+
+   25 Assignment: MINUS AnyValue .
+
+    $default  reduce using rule 25 (Assignment)
+
+
+State 68
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   19           | AnyValue PLUS . Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 96
+
+
+State 69
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   21           | AnyValue MULTIPLY . Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 97
+
+
+State 70
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   20           | AnyValue MINUS . Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 98
+
+
+State 71
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   22           | AnyValue DIVIDE . Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 99
+
+
+State 72
+
+   49 WhileStmt: WHILE LBRACKET Expr RBRACKET . LBRACE Temp1 RBRACE
+
+    LBRACE  shift, and go to state 100
+
+
+State 73
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   35     | Expr AND_AND . Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 101
+
+
+State 74
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   36     | Expr OR_OR . Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 102
+
+
+State 75
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   29     | Expr EQEQ . Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 103
+
+
+State 76
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   33     | Expr LTEQ . Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 104
+
+
+State 77
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   30     | Expr GT . Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 105
+
+
+State 78
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   31     | Expr GTEQ . Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 106
+
+
+State 79
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   32     | Expr LT . Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 107
+
+
+State 80
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   34     | Expr NEQ . Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 108
+
+
+State 81
+
+   70 IfStmt: IF LBRACKET Expr RBRACKET . LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr RBRACKET . LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+
+    LBRACE  shift, and go to state 109
+
+
+State 82
+
+    6 Declaration: IDENTIFIER EQ Assignment SEMICOLON .
+
+    $default  reduce using rule 6 (Declaration)
+
+
+State 83
+
+   72 SS: SWITCH LBRACKET IDENTIFIER RBRACKET . LBRACE B RBRACE
+
+    LBRACE  shift, and go to state 110
+
+
+State 84
+
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE . WHILE LBRACKET Expr RBRACKET SEMICOLON
+
+    WHILE  shift, and go to state 111
+
+
+State 85
+
+    5 Declaration: Type IDENTIFIER EQ Assignment . SEMICOLON
+
+    SEMICOLON  shift, and go to state 112
+
+
+State 86
+
+   59 CustomExprForFirst: IDENTIFIER EQ Assignment .
+
+    $default  reduce using rule 59 (CustomExprForFirst)
+
+
+State 87
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   58 CustomExprForFirst: Type IDENTIFIER EQ . Assignment
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 113
+
+
+State 88
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr . SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+
+    SEMICOLON  shift, and go to state 114
+    AND_AND    shift, and go to state 73
+    OR_OR      shift, and go to state 74
+    EQEQ       shift, and go to state 75
+    LTEQ       shift, and go to state 76
+    GT         shift, and go to state 77
+    GTEQ       shift, and go to state 78
+    LT         shift, and go to state 79
+    NEQ        shift, and go to state 80
+
+
+State 89
+
+   15 Assignment: IDENTIFIER PLUS Assignment .
+
+    $default  reduce using rule 15 (Assignment)
+
+
+State 90
+
+   17 Assignment: IDENTIFIER MULTIPLY Assignment .
+
+    $default  reduce using rule 17 (Assignment)
+
+
+State 91
+
+   16 Assignment: IDENTIFIER MINUS Assignment .
+
+    $default  reduce using rule 16 (Assignment)
+
+
+State 92
+
+   18 Assignment: IDENTIFIER DIVIDE Assignment .
+
+    $default  reduce using rule 18 (Assignment)
+
+
+State 93
+
+   23 Assignment: LBRACKET Assignment RBRACKET .
+
+    $default  reduce using rule 23 (Assignment)
+
+
+State 94
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+   37     | NOT LBRACKET Expr . RBRACKET
+
+    RBRACKET  shift, and go to state 115
+    AND_AND   shift, and go to state 73
+    OR_OR     shift, and go to state 74
+    EQEQ      shift, and go to state 75
+    LTEQ      shift, and go to state 76
+    GT        shift, and go to state 77
+    GTEQ      shift, and go to state 78
+    LT        shift, and go to state 79
+    NEQ       shift, and go to state 80
+
+
+State 95
+
+   24 Assignment: MINUS LBRACKET Assignment . RBRACKET
+
+    RBRACKET  shift, and go to state 116
+
+
+State 96
+
+   19 Assignment: AnyValue PLUS Assignment .
+
+    $default  reduce using rule 19 (Assignment)
+
+
+State 97
+
+   21 Assignment: AnyValue MULTIPLY Assignment .
+
+    $default  reduce using rule 21 (Assignment)
+
+
+State 98
+
+   20 Assignment: AnyValue MINUS Assignment .
+
+    $default  reduce using rule 20 (Assignment)
+
+
+State 99
+
+   22 Assignment: AnyValue DIVIDE Assignment .
+
+    $default  reduce using rule 22 (Assignment)
+
+
+State 100
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   49          | WHILE LBRACKET Expr RBRACKET LBRACE . Temp1 RBRACE
+   50 Temp1: . Declarations
+   51      | . Declarations BREAK SEMICOLON
+   52      | . BREAK SEMICOLON
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 117
+    DO          shift, and go to state 12
+
+    Declarations  go to state 118
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    Temp1         go to state 119
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 101
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   35     | Expr AND_AND Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR]
+   36     | Expr . OR_OR Expr
+
+    EQEQ  shift, and go to state 75
+    LTEQ  shift, and go to state 76
+    GT    shift, and go to state 77
+    GTEQ  shift, and go to state 78
+    LT    shift, and go to state 79
+    NEQ   shift, and go to state 80
+
+    $default  reduce using rule 35 (Expr)
+
+    Conflict between rule 35 and token AND_AND resolved as reduce (%left AND_AND).
+    Conflict between rule 35 and token OR_OR resolved as reduce (%left OR_OR).
+    Conflict between rule 35 and token EQEQ resolved as shift (AND_AND < EQEQ).
+    Conflict between rule 35 and token LTEQ resolved as shift (AND_AND < LTEQ).
+    Conflict between rule 35 and token GT resolved as shift (AND_AND < GT).
+    Conflict between rule 35 and token GTEQ resolved as shift (AND_AND < GTEQ).
+    Conflict between rule 35 and token LT resolved as shift (AND_AND < LT).
+    Conflict between rule 35 and token NEQ resolved as shift (AND_AND < NEQ).
+
+
+State 102
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+   36     | Expr OR_OR Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR]
+
+    EQEQ  shift, and go to state 75
+    LTEQ  shift, and go to state 76
+    GT    shift, and go to state 77
+    GTEQ  shift, and go to state 78
+    LT    shift, and go to state 79
+    NEQ   shift, and go to state 80
+
+    $default  reduce using rule 36 (Expr)
+
+    Conflict between rule 36 and token AND_AND resolved as reduce (%left AND_AND).
+    Conflict between rule 36 and token OR_OR resolved as reduce (%left OR_OR).
+    Conflict between rule 36 and token EQEQ resolved as shift (OR_OR < EQEQ).
+    Conflict between rule 36 and token LTEQ resolved as shift (OR_OR < LTEQ).
+    Conflict between rule 36 and token GT resolved as shift (OR_OR < GT).
+    Conflict between rule 36 and token GTEQ resolved as shift (OR_OR < GTEQ).
+    Conflict between rule 36 and token LT resolved as shift (OR_OR < LT).
+    Conflict between rule 36 and token NEQ resolved as shift (OR_OR < NEQ).
+
+
+State 103
+
+   29 Expr: Expr . EQEQ Expr
+   29     | Expr EQEQ Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+
+    $default  reduce using rule 29 (Expr)
+
+    Conflict between rule 29 and token AND_AND resolved as reduce (AND_AND < EQEQ).
+    Conflict between rule 29 and token OR_OR resolved as reduce (OR_OR < EQEQ).
+    Conflict between rule 29 and token EQEQ resolved as reduce (%left EQEQ).
+    Conflict between rule 29 and token LTEQ resolved as reduce (%left LTEQ).
+    Conflict between rule 29 and token GT resolved as reduce (%left GT).
+    Conflict between rule 29 and token GTEQ resolved as reduce (%left GTEQ).
+    Conflict between rule 29 and token LT resolved as reduce (%left LT).
+    Conflict between rule 29 and token NEQ resolved as reduce (%left NEQ).
+
+
+State 104
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   33     | Expr LTEQ Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+
+    $default  reduce using rule 33 (Expr)
+
+    Conflict between rule 33 and token AND_AND resolved as reduce (AND_AND < LTEQ).
+    Conflict between rule 33 and token OR_OR resolved as reduce (OR_OR < LTEQ).
+    Conflict between rule 33 and token EQEQ resolved as reduce (%left EQEQ).
+    Conflict between rule 33 and token LTEQ resolved as reduce (%left LTEQ).
+    Conflict between rule 33 and token GT resolved as reduce (%left GT).
+    Conflict between rule 33 and token GTEQ resolved as reduce (%left GTEQ).
+    Conflict between rule 33 and token LT resolved as reduce (%left LT).
+    Conflict between rule 33 and token NEQ resolved as reduce (%left NEQ).
+
+
+State 105
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   30     | Expr GT Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+
+    $default  reduce using rule 30 (Expr)
+
+    Conflict between rule 30 and token AND_AND resolved as reduce (AND_AND < GT).
+    Conflict between rule 30 and token OR_OR resolved as reduce (OR_OR < GT).
+    Conflict between rule 30 and token EQEQ resolved as reduce (%left EQEQ).
+    Conflict between rule 30 and token LTEQ resolved as reduce (%left LTEQ).
+    Conflict between rule 30 and token GT resolved as reduce (%left GT).
+    Conflict between rule 30 and token GTEQ resolved as reduce (%left GTEQ).
+    Conflict between rule 30 and token LT resolved as reduce (%left LT).
+    Conflict between rule 30 and token NEQ resolved as reduce (%left NEQ).
+
+
+State 106
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   31     | Expr GTEQ Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+
+    $default  reduce using rule 31 (Expr)
+
+    Conflict between rule 31 and token AND_AND resolved as reduce (AND_AND < GTEQ).
+    Conflict between rule 31 and token OR_OR resolved as reduce (OR_OR < GTEQ).
+    Conflict between rule 31 and token EQEQ resolved as reduce (%left EQEQ).
+    Conflict between rule 31 and token LTEQ resolved as reduce (%left LTEQ).
+    Conflict between rule 31 and token GT resolved as reduce (%left GT).
+    Conflict between rule 31 and token GTEQ resolved as reduce (%left GTEQ).
+    Conflict between rule 31 and token LT resolved as reduce (%left LT).
+    Conflict between rule 31 and token NEQ resolved as reduce (%left NEQ).
+
+
+State 107
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   32     | Expr LT Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+
+    $default  reduce using rule 32 (Expr)
+
+    Conflict between rule 32 and token AND_AND resolved as reduce (AND_AND < LT).
+    Conflict between rule 32 and token OR_OR resolved as reduce (OR_OR < LT).
+    Conflict between rule 32 and token EQEQ resolved as reduce (%left EQEQ).
+    Conflict between rule 32 and token LTEQ resolved as reduce (%left LTEQ).
+    Conflict between rule 32 and token GT resolved as reduce (%left GT).
+    Conflict between rule 32 and token GTEQ resolved as reduce (%left GTEQ).
+    Conflict between rule 32 and token LT resolved as reduce (%left LT).
+    Conflict between rule 32 and token NEQ resolved as reduce (%left NEQ).
+
+
+State 108
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   34     | Expr NEQ Expr .  [SEMICOLON, RBRACKET, AND_AND, OR_OR, EQEQ, LTEQ, GT, GTEQ, LT, NEQ]
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+
+    $default  reduce using rule 34 (Expr)
+
+    Conflict between rule 34 and token AND_AND resolved as reduce (AND_AND < NEQ).
+    Conflict between rule 34 and token OR_OR resolved as reduce (OR_OR < NEQ).
+    Conflict between rule 34 and token EQEQ resolved as reduce (%left EQEQ).
+    Conflict between rule 34 and token LTEQ resolved as reduce (%left LTEQ).
+    Conflict between rule 34 and token GT resolved as reduce (%left GT).
+    Conflict between rule 34 and token GTEQ resolved as reduce (%left GTEQ).
+    Conflict between rule 34 and token LT resolved as reduce (%left LT).
+    Conflict between rule 34 and token NEQ resolved as reduce (%left NEQ).
+
+
+State 109
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   70       | IF LBRACKET Expr RBRACKET LBRACE . Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr RBRACKET LBRACE . Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    Declarations  go to state 120
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 110
+
+   72 SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE . B RBRACE
+   73 B: . Cas
+   74  | . Cas Cas
+   75 Cas: . CASE Assignment COLON Declarations BREAK SEMICOLON
+   76    | . BREAK SEMICOLON
+   77    | . CASE Assignment COLON BREAK SEMICOLON
+   78    | . DEFAULT COLON Declarations BREAK SEMICOLON
+   79    | . DEFAULT COLON BREAK SEMICOLON
+
+    DEFAULT  shift, and go to state 121
+    CASE     shift, and go to state 122
+    BREAK    shift, and go to state 123
+
+    B    go to state 124
+    Cas  go to state 125
+
+
+State 111
+
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE . LBRACKET Expr RBRACKET SEMICOLON
+
+    LBRACKET  shift, and go to state 126
+
+
+State 112
+
+    5 Declaration: Type IDENTIFIER EQ Assignment SEMICOLON .
+
+    $default  reduce using rule 5 (Declaration)
+
+
+State 113
+
+   58 CustomExprForFirst: Type IDENTIFIER EQ Assignment .
+
+    $default  reduce using rule 58 (CustomExprForFirst)
+
+
+State 114
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON . CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   60 CustomExprForThird: . IDENTIFIER INC
+   61                   | . IDENTIFIER DEC
+   62                   | . IDENTIFIER INC EQ AnyValue
+   63                   | . IDENTIFIER INC EQ IDENTIFIER
+   64                   | . IDENTIFIER DEC EQ AnyValue
+   65                   | . IDENTIFIER DEC EQ IDENTIFIER
+   66                   | . IDENTIFIER MULTIPLY EQ AnyValue
+   67                   | . IDENTIFIER MULTIPLY EQ IDENTIFIER
+   68                   | . IDENTIFIER DIVIDE EQ AnyValue
+   69                   | . IDENTIFIER DIVIDE EQ IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 127
+
+    CustomExprForThird  go to state 128
+
+
+State 115
+
+   37 Expr: NOT LBRACKET Expr RBRACKET .
+
+    $default  reduce using rule 37 (Expr)
+
+
+State 116
+
+   24 Assignment: MINUS LBRACKET Assignment RBRACKET .
+
+    $default  reduce using rule 24 (Assignment)
+
+
+State 117
+
+   52 Temp1: BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 129
+
+
+State 118
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   50 Temp1: Declarations .  [RBRACE]
+   51      | Declarations . BREAK SEMICOLON
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 130
+    DO          shift, and go to state 12
+
+    RBRACE  reduce using rule 50 (Temp1)
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 119
+
+   49 WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 . RBRACE
+
+    RBRACE  shift, and go to state 131
+
+
+State 120
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   70       | IF LBRACKET Expr RBRACKET LBRACE Declarations . RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr RBRACKET LBRACE Declarations . RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    RBRACE      shift, and go to state 132
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 121
+
+   78 Cas: DEFAULT . COLON Declarations BREAK SEMICOLON
+   79    | DEFAULT . COLON BREAK SEMICOLON
+
+    COLON  shift, and go to state 133
+
+
+State 122
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   75 Cas: CASE . Assignment COLON Declarations BREAK SEMICOLON
+   77    | CASE . Assignment COLON BREAK SEMICOLON
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 134
+
+
+State 123
+
+   76 Cas: BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 135
+
+
+State 124
+
+   72 SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B . RBRACE
+
+    RBRACE  shift, and go to state 136
+
+
+State 125
+
+   73 B: Cas .  [RBRACE]
+   74  | Cas . Cas
+   75 Cas: . CASE Assignment COLON Declarations BREAK SEMICOLON
+   76    | . BREAK SEMICOLON
+   77    | . CASE Assignment COLON BREAK SEMICOLON
+   78    | . DEFAULT COLON Declarations BREAK SEMICOLON
+   79    | . DEFAULT COLON BREAK SEMICOLON
+
+    DEFAULT  shift, and go to state 121
+    CASE     shift, and go to state 122
+    BREAK    shift, and go to state 123
+
+    $default  reduce using rule 73 (B)
+
+    Cas  go to state 137
+
+
+State 126
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   15 Assignment: . IDENTIFIER PLUS Assignment
+   16           | . IDENTIFIER MINUS Assignment
+   17           | . IDENTIFIER MULTIPLY Assignment
+   18           | . IDENTIFIER DIVIDE Assignment
+   19           | . AnyValue PLUS Assignment
+   20           | . AnyValue MINUS Assignment
+   21           | . AnyValue MULTIPLY Assignment
+   22           | . AnyValue DIVIDE Assignment
+   23           | . LBRACKET Assignment RBRACKET
+   24           | . MINUS LBRACKET Assignment RBRACKET
+   25           | . MINUS AnyValue
+   26           | . MINUS IDENTIFIER
+   27           | . AnyValue
+   28           | . IDENTIFIER
+   29 Expr: . Expr EQEQ Expr
+   30     | . Expr GT Expr
+   31     | . Expr GTEQ Expr
+   32     | . Expr LT Expr
+   33     | . Expr LTEQ Expr
+   34     | . Expr NEQ Expr
+   35     | . Expr AND_AND Expr
+   36     | . Expr OR_OR Expr
+   37     | . NOT LBRACKET Expr RBRACKET
+   38     | . Assignment
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET . Expr RBRACKET SEMICOLON
+
+    IDENTIFIER   shift, and go to state 37
+    LBRACKET     shift, and go to state 38
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+    NOT          shift, and go to state 43
+    MINUS        shift, and go to state 44
+
+    AnyValue    go to state 45
+    Assignment  go to state 46
+    Expr        go to state 138
+
+
+State 127
+
+   60 CustomExprForThird: IDENTIFIER . INC
+   61                   | IDENTIFIER . DEC
+   62                   | IDENTIFIER . INC EQ AnyValue
+   63                   | IDENTIFIER . INC EQ IDENTIFIER
+   64                   | IDENTIFIER . DEC EQ AnyValue
+   65                   | IDENTIFIER . DEC EQ IDENTIFIER
+   66                   | IDENTIFIER . MULTIPLY EQ AnyValue
+   67                   | IDENTIFIER . MULTIPLY EQ IDENTIFIER
+   68                   | IDENTIFIER . DIVIDE EQ AnyValue
+   69                   | IDENTIFIER . DIVIDE EQ IDENTIFIER
+
+    INC       shift, and go to state 139
+    DEC       shift, and go to state 140
+    MULTIPLY  shift, and go to state 141
+    DIVIDE    shift, and go to state 142
+
+
+State 128
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird . RBRACKET LBRACE Temp2 RBRACE
+
+    RBRACKET  shift, and go to state 143
+
+
+State 129
+
+   52 Temp1: BREAK SEMICOLON .
+
+    $default  reduce using rule 52 (Temp1)
+
+
+State 130
+
+   51 Temp1: Declarations BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 144
+
+
+State 131
+
+   49 WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE .
+
+    $default  reduce using rule 49 (WhileStmt)
+
+
+State 132
+
+   70 IfStmt: IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE .  [$end, error, INT, FLOAT, CHAR, VOID, STRING, FOR, WHILE, IF, RBRACE, IDENTIFIER, SWITCH, BREAK, DO]
+   71       | IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE . ELSE LBRACE Declarations RBRACE
+
+    ELSE  shift, and go to state 145
+
+    $default  reduce using rule 70 (IfStmt)
+
+
+State 133
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+   78 Cas: DEFAULT COLON . Declarations BREAK SEMICOLON
+   79    | DEFAULT COLON . BREAK SEMICOLON
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 146
+    DO          shift, and go to state 12
+
+    Declarations  go to state 147
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 134
+
+   75 Cas: CASE Assignment . COLON Declarations BREAK SEMICOLON
+   77    | CASE Assignment . COLON BREAK SEMICOLON
+
+    COLON  shift, and go to state 148
+
+
+State 135
+
+   76 Cas: BREAK SEMICOLON .
+
+    $default  reduce using rule 76 (Cas)
+
+
+State 136
+
+   72 SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE .
+
+    $default  reduce using rule 72 (SS)
+
+
+State 137
+
+   74 B: Cas Cas .
+
+    $default  reduce using rule 74 (B)
+
+
+State 138
+
+   29 Expr: Expr . EQEQ Expr
+   30     | Expr . GT Expr
+   31     | Expr . GTEQ Expr
+   32     | Expr . LT Expr
+   33     | Expr . LTEQ Expr
+   34     | Expr . NEQ Expr
+   35     | Expr . AND_AND Expr
+   36     | Expr . OR_OR Expr
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr . RBRACKET SEMICOLON
+
+    RBRACKET  shift, and go to state 149
+    AND_AND   shift, and go to state 73
+    OR_OR     shift, and go to state 74
+    EQEQ      shift, and go to state 75
+    LTEQ      shift, and go to state 76
+    GT        shift, and go to state 77
+    GTEQ      shift, and go to state 78
+    LT        shift, and go to state 79
+    NEQ       shift, and go to state 80
+
+
+State 139
+
+   60 CustomExprForThird: IDENTIFIER INC .  [RBRACKET]
+   62                   | IDENTIFIER INC . EQ AnyValue
+   63                   | IDENTIFIER INC . EQ IDENTIFIER
+
+    EQ  shift, and go to state 150
+
+    $default  reduce using rule 60 (CustomExprForThird)
+
+
+State 140
+
+   61 CustomExprForThird: IDENTIFIER DEC .  [RBRACKET]
+   64                   | IDENTIFIER DEC . EQ AnyValue
+   65                   | IDENTIFIER DEC . EQ IDENTIFIER
+
+    EQ  shift, and go to state 151
+
+    $default  reduce using rule 61 (CustomExprForThird)
+
+
+State 141
+
+   66 CustomExprForThird: IDENTIFIER MULTIPLY . EQ AnyValue
+   67                   | IDENTIFIER MULTIPLY . EQ IDENTIFIER
+
+    EQ  shift, and go to state 152
+
+
+State 142
+
+   68 CustomExprForThird: IDENTIFIER DIVIDE . EQ AnyValue
+   69                   | IDENTIFIER DIVIDE . EQ IDENTIFIER
+
+    EQ  shift, and go to state 153
+
+
+State 143
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET . LBRACE Temp2 RBRACE
+
+    LBRACE  shift, and go to state 154
+
+
+State 144
+
+   51 Temp1: Declarations BREAK SEMICOLON .
+
+    $default  reduce using rule 51 (Temp1)
+
+
+State 145
+
+   71 IfStmt: IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE . LBRACE Declarations RBRACE
+
+    LBRACE  shift, and go to state 155
+
+
+State 146
+
+   79 Cas: DEFAULT COLON BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 156
+
+
+State 147
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+   78 Cas: DEFAULT COLON Declarations . BREAK SEMICOLON
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 157
+    DO          shift, and go to state 12
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 148
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+   75 Cas: CASE Assignment COLON . Declarations BREAK SEMICOLON
+   77    | CASE Assignment COLON . BREAK SEMICOLON
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 158
+    DO          shift, and go to state 12
+
+    Declarations  go to state 159
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 149
+
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET . SEMICOLON
+
+    SEMICOLON  shift, and go to state 160
+
+
+State 150
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   62 CustomExprForThird: IDENTIFIER INC EQ . AnyValue
+   63                   | IDENTIFIER INC EQ . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 161
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+
+    AnyValue  go to state 162
+
+
+State 151
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   64 CustomExprForThird: IDENTIFIER DEC EQ . AnyValue
+   65                   | IDENTIFIER DEC EQ . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 163
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+
+    AnyValue  go to state 164
+
+
+State 152
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   66 CustomExprForThird: IDENTIFIER MULTIPLY EQ . AnyValue
+   67                   | IDENTIFIER MULTIPLY EQ . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 165
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+
+    AnyValue  go to state 166
+
+
+State 153
+
+   11 AnyValue: . INTVALUE
+   12         | . FLOATVALUE
+   13         | . STRINGVALUE
+   14         | . CHARVALUE
+   68 CustomExprForThird: IDENTIFIER DIVIDE EQ . AnyValue
+   69                   | IDENTIFIER DIVIDE EQ . IDENTIFIER
+
+    IDENTIFIER   shift, and go to state 167
+    CHARVALUE    shift, and go to state 39
+    INTVALUE     shift, and go to state 40
+    FLOATVALUE   shift, and go to state 41
+    STRINGVALUE  shift, and go to state 42
+
+    AnyValue  go to state 168
+
+
+State 154
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   54        | FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE . Temp2 RBRACE
+   55 Temp2: . Declarations
+   56      | . Declarations BREAK SEMICOLON
+   57      | . BREAK SEMICOLON
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 169
+    DO          shift, and go to state 12
+
+    Declarations  go to state 170
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    Temp2         go to state 171
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 155
+
+    2 Declarations: . Declaration
+    3             | . Declarations Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE . Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    Declarations  go to state 172
+    Declaration   go to state 15
+    Stmt          go to state 16
+    Type          go to state 17
+    WhileStmt     go to state 18
+    DoWhileStmt   go to state 19
+    ForStmt       go to state 20
+    IfStmt        go to state 21
+    SS            go to state 22
+
+
+State 156
+
+   79 Cas: DEFAULT COLON BREAK SEMICOLON .
+
+    $default  reduce using rule 79 (Cas)
+
+
+State 157
+
+   78 Cas: DEFAULT COLON Declarations BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 173
+
+
+State 158
+
+   77 Cas: CASE Assignment COLON BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 174
+
+
+State 159
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+   75 Cas: CASE Assignment COLON Declarations . BREAK SEMICOLON
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 175
+    DO          shift, and go to state 12
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 160
+
+   53 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON .
+
+    $default  reduce using rule 53 (DoWhileStmt)
+
+
+State 161
+
+   63 CustomExprForThird: IDENTIFIER INC EQ IDENTIFIER .
+
+    $default  reduce using rule 63 (CustomExprForThird)
+
+
+State 162
+
+   62 CustomExprForThird: IDENTIFIER INC EQ AnyValue .
+
+    $default  reduce using rule 62 (CustomExprForThird)
+
+
+State 163
+
+   65 CustomExprForThird: IDENTIFIER DEC EQ IDENTIFIER .
+
+    $default  reduce using rule 65 (CustomExprForThird)
+
+
+State 164
+
+   64 CustomExprForThird: IDENTIFIER DEC EQ AnyValue .
+
+    $default  reduce using rule 64 (CustomExprForThird)
+
+
+State 165
+
+   67 CustomExprForThird: IDENTIFIER MULTIPLY EQ IDENTIFIER .
+
+    $default  reduce using rule 67 (CustomExprForThird)
+
+
+State 166
+
+   66 CustomExprForThird: IDENTIFIER MULTIPLY EQ AnyValue .
+
+    $default  reduce using rule 66 (CustomExprForThird)
+
+
+State 167
+
+   69 CustomExprForThird: IDENTIFIER DIVIDE EQ IDENTIFIER .
+
+    $default  reduce using rule 69 (CustomExprForThird)
+
+
+State 168
+
+   68 CustomExprForThird: IDENTIFIER DIVIDE EQ AnyValue .
+
+    $default  reduce using rule 68 (CustomExprForThird)
+
+
+State 169
+
+   57 Temp2: BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 176
+
+
+State 170
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   55 Temp2: Declarations .  [RBRACE]
+   56      | Declarations . BREAK SEMICOLON
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    BREAK       shift, and go to state 177
+    DO          shift, and go to state 12
+
+    RBRACE  reduce using rule 55 (Temp2)
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 171
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 . RBRACE
+
+    RBRACE  shift, and go to state 178
+
+
+State 172
+
+    3 Declarations: Declarations . Declaration
+    4 Declaration: . Type IDENTIFIER SEMICOLON
+    5            | . Type IDENTIFIER EQ Assignment SEMICOLON
+    6            | . IDENTIFIER EQ Assignment SEMICOLON
+    7            | . IDENTIFIER INC SEMICOLON
+    8            | . IDENTIFIER DEC SEMICOLON
+    9            | . Stmt
+   10            | . error
+   39 Stmt: . WhileStmt
+   40     | . ForStmt
+   41     | . IfStmt
+   42     | . DoWhileStmt
+   43     | . SS
+   44 Type: . INT
+   45     | . FLOAT
+   46     | . CHAR
+   47     | . STRING
+   48     | . VOID
+   49 WhileStmt: . WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+   53 DoWhileStmt: . DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+   54 ForStmt: . FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE
+   70 IfStmt: . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE
+   71       | . IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE
+   71       | IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations . RBRACE
+   72 SS: . SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE
+
+    error       shift, and go to state 1
+    INT         shift, and go to state 2
+    FLOAT       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    STRING      shift, and go to state 6
+    FOR         shift, and go to state 7
+    WHILE       shift, and go to state 8
+    IF          shift, and go to state 9
+    RBRACE      shift, and go to state 179
+    IDENTIFIER  shift, and go to state 10
+    SWITCH      shift, and go to state 11
+    DO          shift, and go to state 12
+
+    Declaration  go to state 32
+    Stmt         go to state 16
+    Type         go to state 17
+    WhileStmt    go to state 18
+    DoWhileStmt  go to state 19
+    ForStmt      go to state 20
+    IfStmt       go to state 21
+    SS           go to state 22
+
+
+State 173
+
+   78 Cas: DEFAULT COLON Declarations BREAK SEMICOLON .
+
+    $default  reduce using rule 78 (Cas)
+
+
+State 174
+
+   77 Cas: CASE Assignment COLON BREAK SEMICOLON .
+
+    $default  reduce using rule 77 (Cas)
+
+
+State 175
+
+   75 Cas: CASE Assignment COLON Declarations BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 180
+
+
+State 176
+
+   57 Temp2: BREAK SEMICOLON .
+
+    $default  reduce using rule 57 (Temp2)
+
+
+State 177
+
+   56 Temp2: Declarations BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 181
+
+
+State 178
+
+   54 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE .
+
+    $default  reduce using rule 54 (ForStmt)
+
+
+State 179
+
+   71 IfStmt: IF LBRACKET Expr RBRACKET LBRACE Declarations RBRACE ELSE LBRACE Declarations RBRACE .
+
+    $default  reduce using rule 71 (IfStmt)
+
+
+State 180
+
+   75 Cas: CASE Assignment COLON Declarations BREAK SEMICOLON .
+
+    $default  reduce using rule 75 (Cas)
+
+
+State 181
+
+   56 Temp2: Declarations BREAK SEMICOLON .
+
+    $default  reduce using rule 56 (Temp2)
