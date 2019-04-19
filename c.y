@@ -98,7 +98,7 @@ Type:	INT
 /* Loop Blocks */ 
 WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
 	;
-	Temp1 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
+Temp1 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
 
 DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
              ;
