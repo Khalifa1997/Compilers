@@ -127,13 +127,12 @@ WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
 	;
 Temp1 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
 
-DoWhileStmt: DO LBRACE Declarations RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+DoWhileStmt: DO LBRACE Temp1 RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
              ;
 
 /* For Block */
-ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp2 RBRACE  
+ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp1 RBRACE  
 	;
-	Temp2 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
 
 CustomExprForFirst: Type IDENTIFIER EQ Assignment
 					| IDENTIFIER EQ Assignment
