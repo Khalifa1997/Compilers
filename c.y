@@ -22,6 +22,7 @@ extern FILE *fp;
 %type <stringVal> Type
 %type <stringVal> IDENTIFIER
 %type <floatVal> MathAssignment
+%type <floatVal> ExprAssignment
 %type<stringVal> StringAnyValue
 %type<floatVal> MathAnyValue
 
@@ -113,19 +114,19 @@ Expr:
 	| ExprAssignment
 	;
 
-ExprAssignment:IDENTIFIER PLUS ExprAssignment
-	| IDENTIFIER MINUS ExprAssignment
-	| IDENTIFIER MULTIPLY ExprAssignment
-	| IDENTIFIER DIVIDE ExprAssignment	
+ExprAssignment:IDENTIFIER PLUS ExprAssignment {$$ = getValue($1) + $3;}
+	| IDENTIFIER MINUS ExprAssignment {$$ = getValue($1) - $3;}
+	| IDENTIFIER MULTIPLY ExprAssignment {$$ = getValue($1) * $3;}
+	| IDENTIFIER DIVIDE ExprAssignment	 {$$ = getValue($1) / $3;}
 	| MathAnyValue PLUS ExprAssignment
 	| MathAnyValue MINUS ExprAssignment
 	| MathAnyValue MULTIPLY ExprAssignment
 	| MathAnyValue DIVIDE ExprAssignment
-	| MINUS LBRACKET ExprAssignment RBRACKET
-	| MINUS MathAnyValue
-	| MINUS IDENTIFIER
+	| MINUS LBRACKET ExprAssignment RBRACKET {$$ = -$3;}
+	| MINUS MathAnyValue	{$$ = -$2;}
+	| MINUS IDENTIFIER	 {$$ = - (getValue($2));}
 	| MathAnyValue
-	| IDENTIFIER
+	| IDENTIFIER {$$ = getValue($1);}
 	;
 
 
@@ -137,7 +138,7 @@ Stmt:	WhileStmt
 	;
 
 /* Type Identifier block */
-Type:	INT {$$ = $1;}
+Type:INT {$$ = $1;}
 	| FLOAT {$$ = $1;}
 	| CHAR {$$ = $1;}
 	| STRING {$$ = $1;}
@@ -156,8 +157,8 @@ DoWhileStmt: DO LBRACE Temp1 RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
 ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp1 RBRACE  
 	;
 
-CustomExprForFirst: Type IDENTIFIER EQ MathAssignment
-					| IDENTIFIER EQ MathAssignment
+CustomExprForFirst: Type IDENTIFIER EQ MathAssignment {declare_and_intialize($1, $2, $4);}
+					| IDENTIFIER EQ MathAssignment  {assignValue($1,$3);}
 					;
 CustomExprForThird:IDENTIFIER INC
 									|IDENTIFIER DEC
