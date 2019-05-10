@@ -198,22 +198,103 @@ void printSemanticErrors()
 }
 void assignValue(char *ID, float value)
 {
+    if (isDeclared(ID) == true)
+    {
+        // yyerror("UnDeclared Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\nUndeclared variable:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if (isinScope(ID) == false)
+    {
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
 
     for (int i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name = ID)
         {
-            symbol[i].value = value;
+            if (symbol[i].type == "float")
+            {
+                symbol[i].value = value;
+            }
+            else if (symbol[i].type == "int")
+            {
+                symbol[i].value = (int)value;
+            }
+            else
+            {
+                char c[100] = "\nError on line ";
+                strcat(c, itoa_customized(yylineno));
+                strcat(c, "\nType mismatch! variable ");
+                strcat(c, ID);
+                strcat(c, "of type ");
+                strcat(c, symbol[i].type);
+                strcat(c, "cannot be assigned this value ");
+                strcat(c, "\0");
+                strcpy(semanticerrors[noOfErrors], c);
+                noOfErrors++;
+            }
+
+            if (symbol[i].isintialized)
+            {
+                symbol[i].isintialized = true;
+            }
+            return;
         }
     }
 }
 void assignValuetoString(char *ID, char *value)
 {
+    if (isDeclared(ID) == true)
+    {
+        // yyerror("UnDeclared Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\nUndeclared variable:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if (isinScope(ID) == false)
+    {
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
     for (int i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name = ID)
         {
             strcpy(symbol[i].stringValue, value);
+            if (symbol[i].isintialized)
+            {
+                symbol[i].isintialized = true;
+            }
+            return;
         }
     }
 }
