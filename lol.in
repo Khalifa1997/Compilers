@@ -1,2 +1,8 @@
-int x = 5;
-int y = 6;
+
+
+for(int x = 5 ; x <44 ; x++)
+{
+    int z = 12;
+    z ++;
+}
+int y = z;

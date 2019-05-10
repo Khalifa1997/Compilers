@@ -15,17 +15,19 @@ extern FILE *fp;
   float floatVal;
   char* stringVal;
 }
+
 %token <stringVal>  CHARVALUE
-%token <intVal>   INTVALUE
+%token <floatVal>   INTVALUE
 %token <floatVal> FLOATVALUE
 %token <stringVal> STRINGVALUE
+
 %type <stringVal> Type
 %type <stringVal> IDENTIFIER
 %type <floatVal> MathAssignment
 %type <floatVal> ExprAssignment
+
 %type<stringVal> StringAnyValue
 %type<floatVal> MathAnyValue
-
 
 
 %type <stringVal> STRING
@@ -50,19 +52,19 @@ Declarations: Declaration | Declarations Declaration
 /* Declaration block */
 Declaration: Type IDENTIFIER SEMICOLON { declare_variable($1, $2); }
     | Type IDENTIFIER EQ MathAssignment SEMICOLON  {declare_and_intialize($1, $2, $4);}
-	| Type IDENTIFIER EQ StringAnyValue SEMICOLON {declare_initString($1,$2, $4);}
-	| IDENTIFIER EQ MathAssignment SEMICOLON  {assignValue($1,$3);}
-	| IDENTIFIER EQ StringAnyValue SEMICOLON	{assignValuetoString($1, $3);}
-	| IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {assignValuetoString($1,getStringValue($5));}
+	| Type IDENTIFIER EQ StringAnyValue SEMICOLON { declare_initString($1,$2,$4); }
+	| IDENTIFIER EQ MathAssignment SEMICOLON  {  assignValue($1,$3);}
+	| IDENTIFIER EQ StringAnyValue SEMICOLON	{ assignValuetoString($1, $3);}
+	| IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {assignValuetoString($1,getStringValue($5));} 
 	| Type IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {declare_initString($1,$2,getStringValue($6));}
-	| IDENTIFIER INC SEMICOLON { printf("increemt"); IncrementValue($1);}
-	| IDENTIFIER DEC SEMICOLON  
+	| IDENTIFIER INC SEMICOLON {  IncrementValue($1);}
+	| IDENTIFIER DEC SEMICOLON  {DecrementValue($1);}
 	| Stmt
 	/*| error */	
 	;
 
 /* Assignment block */
-MathAssignment: IDENTIFIER PLUS MathAssignment  {$$ = getValue($1) + $3;}
+MathAssignment: IDENTIFIER PLUS MathAssignment  { $$ = getValue($1) + $3;}
 	| IDENTIFIER MINUS MathAssignment {$$ = getValue($1) - $3;}
 	| IDENTIFIER MULTIPLY MathAssignment {$$ = getValue($1) * $3;}
 	| IDENTIFIER DIVIDE MathAssignment {$$ = getValue($1) / $3;}
@@ -90,7 +92,7 @@ MathAnyValue: INTVALUE {$$ = $1;}
 		| FLOATVALUE {$$ = $1;}
 		;
 
-StringAnyValue:  STRINGVALUE  {$$ = $1;}
+StringAnyValue: STRINGVALUE  {$$ = $1;}
 		| CHARVALUE {$$ = $1;}
 		;		
 
@@ -153,7 +155,8 @@ DoWhileStmt: DO LBRACE Temp1 RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
              ;
 
 /* For Block */
-ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE Temp1 RBRACE  
+ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE
+{curlyBraceIsOpened();}  Temp1 RBRACE  {curlyBraceIsClosed();} 
 	;
 
 CustomExprForFirst: Type IDENTIFIER EQ MathAssignment {declare_and_intialize($1, $2, $4);}
@@ -171,14 +174,14 @@ CustomExprForThird:IDENTIFIER INC
 									|IDENTIFIER DIVIDE EQ IDENTIFIER
 									;
 /* IfStmt Block */
-IfStmt: IF LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
-	|IF LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE ELSE LBRACE Temp1 RBRACE
+IfStmt: IF LBRACKET Expr RBRACKET LBRACE {curlyBraceIsOpened();} Temp1 RBRACE {curlyBraceIsClosed();} 
+ELSE LBRACE  {curlyBraceIsOpened();}  Temp1 RBRACE {curlyBraceIsClosed();} 
 	;
 
 
 /*Switch Case Block*/
 
-SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE B RBRACE 
+SS: SWITCH LBRACKET IDENTIFIER RBRACKET LBRACE {curlyBraceIsOpened();}  B RBRACE  {curlyBraceIsClosed();} 
 	;
 B: Cas | Cas Cas;
 

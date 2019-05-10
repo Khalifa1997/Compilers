@@ -9,12 +9,12 @@ int yywrap();
 
 %%
 
-"void"			return VOID;
+"void"			{yylval.stringVal="void";}return VOID;
 "int"			{yylval.stringVal="int";}return INT;
-"float"			return FLOAT;
-"string"		return STRING;
-"char"			return CHAR;
-"boolean"		return BOOLEAN;
+"float"			{yylval.stringVal="float";}return FLOAT;
+"string"		{yylval.stringVal="string";}return STRING;
+"char"			{yylval.stringVal="char";}return CHAR;
+"boolean"		{yylval.stringVal="boolean";}return BOOLEAN;
 
 "if"			return IF;
 "else"			return ELSE;
@@ -61,18 +61,19 @@ int yywrap();
 "false"			return FALSE;
 
 
-[0-9]+ 			return INTVALUE;
-[0-9]+\.[0-9]+		return FLOATVALUE;
-[a-zA-Z][a-zA-Z0-9_]*	{yylval.stringVal=yytext;}return IDENTIFIER;
-\'[a-zA-Z]\'		return CHARVALUE;
-\".*\"			return STRINGVALUE;
+[0-9]+ 			{yylval.floatVal=atof(yytext); }return INTVALUE;
+[0-9]+\.[0-9]+		{yylval.floatVal=atof(yytext); } return FLOATVALUE;
+[a-zA-Z][a-zA-Z0-9_]*	{yylval.stringVal=strdup(yytext);} return IDENTIFIER;
+\".*\"			{yylval.stringVal=strdup(yytext);} return STRINGVALUE;
+\'[a-zA-Z]\'		{yylval.stringVal = yytext[1];} return CHARVALUE;
+
 
 
 
 [\/\*][.]*[\/\*]	return COMMENT;
 
 \n				{yylineno++;};
-[\t|\f|\r|\v]+			;
+[ \t|\f|\r|\v]+			;
 
 . 				;
 

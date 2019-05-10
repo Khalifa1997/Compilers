@@ -14,7 +14,6 @@ void unusedvariables()
   {
     if(symbol[i].isintialized==0)
     {
-      //printf("Semantic Error: unused variable : %s\n",identifiers[i].ID);
         char c[100] = "\nSemantic Error: unused variable : ";
         strcat(c,symbol[i].name);
         strcat(c,"\0");
@@ -47,6 +46,7 @@ void printSymbolTable()
     int i;
     for (i = 0; i < noOfIdentifiers; i++)
     {
+        if(symbol[i].Scope != -1)
         printf("type: %s , name: %s, value:%f, stringVal: %s \n", symbol[i].type, symbol[i].name, symbol[i].value, symbol[i].stringValue);
     }
 }
@@ -64,6 +64,7 @@ bool isDuplicate(char *datatype, char *ID)
 }
 void declare_variable(char *datatype, char *ID)
 {
+    
     if (noOfIdentifiers < 99)
     {
         if (isDuplicate(datatype, ID))
@@ -75,7 +76,7 @@ void declare_variable(char *datatype, char *ID)
             strcat(c, "\nDuplicate identifier found:  ");
             strcat(c, ID);
             strcat(c, "\0");
-            strcpy(semanticerrors[noOfErrors], c);
+    //        strcpy(semanticerrors[noOfErrors], c);
             noOfErrors++;
             return;
         }
@@ -83,7 +84,9 @@ void declare_variable(char *datatype, char *ID)
         symbol[noOfIdentifiers].name = ID;
         symbol[noOfIdentifiers].isintialized = false;
         symbol[noOfIdentifiers].Scope = Scope;
+        symbol[noOfIdentifiers].stringValue = " ";
         noOfIdentifiers++;
+        printSymbolTable();
     }
     else
     {
@@ -96,7 +99,6 @@ void declare_variable(char *datatype, char *ID)
 }
 void declare_and_intialize(char *datatype, char *ID, float val)
 {
-    printf("%s",ID);
     if (noOfIdentifiers < 99)
     {
         if (isDuplicate(datatype, ID))
@@ -149,15 +151,18 @@ void declare_initString(char *datatype, char *ID, char *val)
             strcpy(semanticerrors[noOfErrors], c);
             noOfErrors++;
             return;
+
         }
         else
         {
-            strcpy(symbol[noOfIdentifiers].stringValue, val);
+            //strcpy(symbol[noOfIdentifiers].stringValue, val);
+            symbol[noOfIdentifiers].stringValue = val;
             symbol[noOfIdentifiers].isintialized = true;
             symbol[noOfIdentifiers].name = ID;
             symbol[noOfIdentifiers].Scope = Scope;
             symbol[noOfIdentifiers].type = datatype;
             noOfIdentifiers++;
+            printSymbolTable();
         }
     }
 }
@@ -201,7 +206,9 @@ void curlyBraceIsClosed()
     }
 
     Scope--;
+
 }
+
 bool isinScope(char *ID)
 {
     int i ;
@@ -216,12 +223,17 @@ bool isinScope(char *ID)
 }
 int getIndex(char *ID)
 {
+
     int i ;
     for ( i = 0; i < noOfIdentifiers; i++)
     {
-        if (symbol[i].name == ID)
+        
+        printf("%s",symbol[i].name);
+        printf("%s",ID);
+        if(strcmp(ID,symbol[i].name) ==0 )
         {
             return i;
+
         }
     }
     return -1;
@@ -252,6 +264,7 @@ for(i=0; i<noOfIdentifiers; i++){
 
 void assignValue(char *ID, float value)
 {
+
     if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
@@ -265,9 +278,9 @@ void assignValue(char *ID, float value)
         return;
     }
 
-    if (isinScope(ID) == false)
+   
+    if (symbol[getIndex(ID)].Scope != Scope)
     {
-        //yyerror("out of scope Variable!");
         char c[100] = "\n Error on line ";
         strcat(c, itoa_customized(yylineno));
         strcat(c, "\n Variable doesn't exist in scope:  ");
@@ -281,8 +294,9 @@ void assignValue(char *ID, float value)
 int i ;
     for (i = 0; i < noOfIdentifiers; i++)
     {
-        if (symbol[i].name = ID)
+        if (symbol[i].name == ID)
         {
+
             if (symbol[i].type == "float")
             {
                 symbol[i].value = value;
@@ -305,16 +319,20 @@ int i ;
                 noOfErrors++;
             }
 
-            if (symbol[i].isintialized)
+            if (!symbol[i].isintialized)
             {
                 symbol[i].isintialized = true;
             }
-            return;
+            break;
         }
     }
 }
 void assignValuetoString(char *ID, char *value)
 {
+
+   int index =0;
+   index = getIndex(ID) ;
+
     if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
@@ -323,36 +341,35 @@ void assignValuetoString(char *ID, char *value)
         strcat(c, "\nUndeclared variable:  ");
         strcat(c, ID);
         strcat(c, "\0");
-        strcpy(semanticerrors[noOfErrors], c);
+       // strcpy(semanticerrors[noOfErrors], c);
         noOfErrors++;
         return;
     }
 
-    if (isinScope(ID) == false)
+    if (symbol[getIndex(ID)].Scope != Scope)
     {
+
+    int index =0;
+    index= getIndex(ID);
+
         //yyerror("out of scope Variable!");
         char c[100] = "\n Error on line ";
         strcat(c, itoa_customized(yylineno));
         strcat(c, "\n Variable doesn't exist in scope:  ");
         strcat(c, ID);
         strcat(c, "\0");
-        strcpy(semanticerrors[noOfErrors], c);
-        noOfErrors++;
+      //  strcpy(semanticerrors[noOfErrors], c);
+         noOfErrors++;
         return;
     }
-    int i ;
-    for ( i = 0; i < noOfIdentifiers; i++)
+
+    if(index != -1)
     {
-        if (symbol[i].name = ID)
-        {
-            strcpy(symbol[i].stringValue, value);
-            if (symbol[i].isintialized)
-            {
-                symbol[i].isintialized = true;
-            }
-            return;
-        }
+    symbol[index].stringValue = value;
+    symbol[index].isintialized = true;
     }
+
+    printSymbolTable();
 }
 
 
@@ -373,20 +390,6 @@ float getValue(char *ID)
 
 
 
-
-    if (isinScope(ID) == false)
-    {
-        //yyerror("out of scope Variable!");
-        char c[100] = "\n Error on line ";
-        strcat(c, itoa_customized(yylineno));
-        strcat(c, "\n Variable doesn't exist in scope:  ");
-        strcat(c, ID);
-        strcat(c, "\0");
-        strcpy(semanticerrors[noOfErrors], c);
-        noOfErrors++;
-        return;
-    }
-
     if(varIntialized(ID) == false)
     {
         char c[100] = "\n Error on line ";
@@ -398,11 +401,10 @@ float getValue(char *ID)
         noOfErrors++;
         return;
     }
+  
+   int index = 0;
+   index = getIndex(ID);
 
-   
-   
-   int index = getIndex(ID);
-   
     if(index != -1)
     {
    char* ID_datatype = getDataType(ID);
@@ -446,7 +448,7 @@ char* getStringValue(char*ID)
         return;
     }
 
-    if (isinScope(ID) == false)
+    if (symbol[getIndex(ID)].Scope != Scope)
     {
         //yyerror("out of scope Variable!");
         char c[100] = "\n Error on line ";
@@ -507,7 +509,6 @@ else{
 
 void IncrementValue(char*ID)
 {
-    printf("ana hena");
      if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
@@ -521,7 +522,7 @@ void IncrementValue(char*ID)
         return;
     }
 
-    if (isinScope(ID) == false)
+    if (symbol[getIndex(ID)].Scope != Scope)
     {
         //yyerror("out of scope Variable!");
         char c[100] = "\n Error on line ";
@@ -546,9 +547,11 @@ void IncrementValue(char*ID)
         return;
     }
 
-int index = getIndex(ID);
+int index=0;
+index = getIndex(ID);
 
     symbol[index].value = symbol[index].value+1;
+    printSymbolTable();
     return;
     
 
@@ -570,7 +573,7 @@ void DecrementValue(char*ID)
         return;
     }
 
-    if (isinScope(ID) == false)
+    if (symbol[getIndex(ID)].Scope != Scope)
     {
         //yyerror("out of scope Variable!");
         char c[100] = "\n Error on line ";
@@ -595,9 +598,11 @@ void DecrementValue(char*ID)
         return;
     }
 
-int index = getIndex(ID);
+int index =0;
+index= getIndex(ID);
 
     symbol[index].value = symbol[index].value-1;
+    printSymbolTable();
     return;
     
 
