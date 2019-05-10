@@ -4,19 +4,17 @@
 #include "symboltable.c"
 extern FILE *fp;
 %}
-%token INT FLOAT CHAR VOID IDENTIFIER SEMICOLON RETURN STRING DEFAULT
+%token INT FLOAT VOID IDENTIFIER SEMICOLON RETURN STRING DEFAULT
 %token FOR WHILE 
 %token IF ELSE
 %token RBRACE LBRACE RBRACKET LBRACKET
 %token SWITCH CASE COLON BREAK BOOLEAN LSQUARE RSQUARE COMMA DO TRUE FALSE COMMENT
 %union {
   int intVal;
-  char charVal;
   float floatVal;
   char* stringVal;
 }
 
-%token <stringVal>  CHARVALUE
 %token <floatVal>   INTVALUE
 %token <floatVal> FLOATVALUE
 %token <stringVal> STRINGVALUE
@@ -34,7 +32,6 @@ extern FILE *fp;
 %type <stringVal> FLOAT
 %type <stringVal> INT
 %type <stringVal> VOID
-%type <stringVal> CHAR
 
 
 
@@ -68,24 +65,33 @@ MathAssignment: IDENTIFIER PLUS MathAssignment  { $$ = getValue($1) + $3;}
 	| IDENTIFIER MINUS MathAssignment {$$ = getValue($1) - $3;}
 	| IDENTIFIER MULTIPLY MathAssignment {$$ = getValue($1) * $3;}
 	| IDENTIFIER DIVIDE MathAssignment {$$ = getValue($1) / $3;}
-	| MathAnyValue PLUS MathAssignment
-	| MathAnyValue MINUS MathAssignment
-	| MathAnyValue MULTIPLY MathAssignment
-	| MathAnyValue DIVIDE MathAssignment
-	| LBRACKET MathAssignment RBRACKET {$$ = $2;}
-	| LBRACKET MathAssignment RBRACKET PLUS MathAssignment {$$ = $2 + $5;}
-	| LBRACKET MathAssignment RBRACKET MINUS MathAssignment {$$ = $2 - $5;}
-	| LBRACKET MathAssignment RBRACKET MULTIPLY MathAssignment {$$ = $2 * $5;}
-	| LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = $2 / $5;}
-	| MINUS LBRACKET MathAssignment RBRACKET {$$ = -$3;}
-	| MINUS LBRACKET MathAssignment RBRACKET PLUS MathAssignment {$$ = -$3 + $6;}
-	| MINUS LBRACKET MathAssignment RBRACKET MINUS MathAssignment {$$ = -$3 - $6;}
-	| MINUS LBRACKET MathAssignment RBRACKET MULTIPLY MathAssignment {$$ = -$3 * $6;}
-	| MINUS LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = -$3 / $6;}
-	| MINUS MathAnyValue {$$ = -$2;}
+	| MathAnyValue PLUS MathAssignment {$$ = $1 + $3;}
+	| MathAnyValue MINUS MathAssignment {$$ = $1 - $3;}
+	| MathAnyValue MULTIPLY MathAssignment {$$ = $1 * $3;}
+	| MathAnyValue DIVIDE MathAssignment {$$ = $1 / $3;}
+
+	| LBRACKET MathAssignment RBRACKET {$$ = ($2);}
+	| LBRACKET MathAssignment RBRACKET PLUS MathAssignment {$$ = ($2) + $5;}
+	| LBRACKET MathAssignment RBRACKET MINUS MathAssignment {$$ = ($2) - $5;}
+	| LBRACKET MathAssignment RBRACKET MULTIPLY MathAssignment {$$ = ($2) * $5;}
+	| LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = ($2) / $5;}
+	| MINUS LBRACKET MathAssignment RBRACKET {$$ = -($3);}
+	| MINUS LBRACKET MathAssignment RBRACKET PLUS MathAssignment {$$ = - ($3 )+ $6;}
+	| MINUS LBRACKET MathAssignment RBRACKET MINUS MathAssignment {$$ = -($3 )- $6;}
+	| MINUS LBRACKET MathAssignment RBRACKET MULTIPLY MathAssignment {$$ = - ($3) * $6;}
+	| MINUS LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = - ($3) / $6;}
+	| MINUS MathAnyValue {$$ = - $2 ;}
 	| MINUS IDENTIFIER  {$$ = - (getValue($2));}
 	| MathAnyValue {$$ = $1;}
-	| IDENTIFIER {$$ = getValue($1);}
+	| IDENTIFIER { int index =0;
+					index = isinScope($1);
+					if(index !=500)
+				$$ = getValue($1);
+				else {
+					printf("out of scope");
+					printf("\n");
+				}
+				}
 	;
 
 MathAnyValue: INTVALUE {$$ = $1;}
@@ -93,8 +99,7 @@ MathAnyValue: INTVALUE {$$ = $1;}
 		;
 
 StringAnyValue: STRINGVALUE  {$$ = $1;}
-		| CHARVALUE {$$ = $1;}
-		;		
+;		
 
 /*Expression Block*/
 Expr:	
@@ -141,9 +146,7 @@ Stmt:	WhileStmt
 /* Type Identifier block */
 Type:	INT {$$ = $1;}
 	| FLOAT {$$ = $1;}
-	| CHAR {$$ = $1;}
 	| STRING {$$ = $1;}
-	| VOID  {$$ = $1;}
 	;
 
 /* Loop Blocks */ 
@@ -155,8 +158,8 @@ DoWhileStmt: DO LBRACE Temp1 RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
              ;
 
 /* For Block */
-ForStmt: FOR LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE
-{curlyBraceIsOpened();}  Temp1 RBRACE  {curlyBraceIsClosed();} 
+ForStmt: FOR {curlyBraceIsOpened();} LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE
+  Temp1 RBRACE  {curlyBraceIsClosed();} 
 	;
 
 CustomExprForFirst: Type IDENTIFIER EQ MathAssignment {declare_and_intialize($1, $2, $4);}

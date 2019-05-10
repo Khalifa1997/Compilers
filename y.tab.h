@@ -47,105 +47,101 @@ extern int yydebug;
   {
     INT = 258,
     FLOAT = 259,
-    CHAR = 260,
-    VOID = 261,
-    IDENTIFIER = 262,
-    SEMICOLON = 263,
-    RETURN = 264,
-    STRING = 265,
-    DEFAULT = 266,
-    FOR = 267,
-    WHILE = 268,
-    IF = 269,
-    ELSE = 270,
-    RBRACE = 271,
-    LBRACE = 272,
-    RBRACKET = 273,
-    LBRACKET = 274,
-    SWITCH = 275,
-    CASE = 276,
-    COLON = 277,
-    BREAK = 278,
-    BOOLEAN = 279,
-    LSQUARE = 280,
-    RSQUARE = 281,
-    COMMA = 282,
-    DO = 283,
-    TRUE = 284,
-    FALSE = 285,
-    COMMENT = 286,
-    CHARVALUE = 287,
-    INTVALUE = 288,
-    FLOATVALUE = 289,
-    STRINGVALUE = 290,
-    EQ = 291,
-    NOT = 292,
-    INC = 293,
-    DEC = 294,
-    PLUS = 295,
-    MULTIPLY = 296,
-    MINUS = 297,
-    DIVIDE = 298,
-    AND_AND = 299,
-    OR_OR = 300,
-    EQEQ = 301,
-    LTEQ = 302,
-    GT = 303,
-    GTEQ = 304,
-    LT = 305,
-    NEQ = 306
+    VOID = 260,
+    IDENTIFIER = 261,
+    SEMICOLON = 262,
+    RETURN = 263,
+    STRING = 264,
+    DEFAULT = 265,
+    FOR = 266,
+    WHILE = 267,
+    IF = 268,
+    ELSE = 269,
+    RBRACE = 270,
+    LBRACE = 271,
+    RBRACKET = 272,
+    LBRACKET = 273,
+    SWITCH = 274,
+    CASE = 275,
+    COLON = 276,
+    BREAK = 277,
+    BOOLEAN = 278,
+    LSQUARE = 279,
+    RSQUARE = 280,
+    COMMA = 281,
+    DO = 282,
+    TRUE = 283,
+    FALSE = 284,
+    COMMENT = 285,
+    INTVALUE = 286,
+    FLOATVALUE = 287,
+    STRINGVALUE = 288,
+    EQ = 289,
+    NOT = 290,
+    INC = 291,
+    DEC = 292,
+    PLUS = 293,
+    MULTIPLY = 294,
+    MINUS = 295,
+    DIVIDE = 296,
+    AND_AND = 297,
+    OR_OR = 298,
+    EQEQ = 299,
+    LTEQ = 300,
+    GT = 301,
+    GTEQ = 302,
+    LT = 303,
+    NEQ = 304
   };
 #endif
 /* Tokens.  */
 #define INT 258
 #define FLOAT 259
-#define CHAR 260
-#define VOID 261
-#define IDENTIFIER 262
-#define SEMICOLON 263
-#define RETURN 264
-#define STRING 265
-#define DEFAULT 266
-#define FOR 267
-#define WHILE 268
-#define IF 269
-#define ELSE 270
-#define RBRACE 271
-#define LBRACE 272
-#define RBRACKET 273
-#define LBRACKET 274
-#define SWITCH 275
-#define CASE 276
-#define COLON 277
-#define BREAK 278
-#define BOOLEAN 279
-#define LSQUARE 280
-#define RSQUARE 281
-#define COMMA 282
-#define DO 283
-#define TRUE 284
-#define FALSE 285
-#define COMMENT 286
-#define CHARVALUE 287
-#define INTVALUE 288
-#define FLOATVALUE 289
-#define STRINGVALUE 290
-#define EQ 291
-#define NOT 292
-#define INC 293
-#define DEC 294
-#define PLUS 295
-#define MULTIPLY 296
-#define MINUS 297
-#define DIVIDE 298
-#define AND_AND 299
-#define OR_OR 300
-#define EQEQ 301
-#define LTEQ 302
-#define GT 303
-#define GTEQ 304
-#define LT 305
-#define NEQ 306
+#define VOID 260
+#define IDENTIFIER 261
+#define SEMICOLON 262
+#define RETURN 263
+#define STRING 264
+#define DEFAULT 265
+#define FOR 266
+#define WHILE 267
+#define IF 268
+#define ELSE 269
+#define RBRACE 270
+#define LBRACE 271
+#define RBRACKET 272
+#define LBRACKET 273
+#define SWITCH 274
+#define CASE 275
+#define COLON 276
+#define BREAK 277
+#define BOOLEAN 278
+#define LSQUARE 279
+#define RSQUARE 280
+#define COMMA 281
+#define DO 282
+#define TRUE 283
+#define FALSE 284
+#define COMMENT 285
+#define INTVALUE 286
+#define FLOATVALUE 287
+#define STRINGVALUE 288
+#define EQ 289
+#define NOT 290
+#define INC 291
+#define DEC 292
+#define PLUS 293
+#define MULTIPLY 294
+#define MINUS 295
+#define DIVIDE 296
+#define AND_AND 297
+#define OR_OR 298
+#define EQEQ 299
+#define LTEQ 300
+#define GT 301
+#define GTEQ 302
+#define LT 303
+#define NEQ 304
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -155,11 +151,10 @@ union YYSTYPE
 #line 12 "c.y" /* yacc.c:1909  */
 
   int intVal;
-  char charVal;
   float floatVal;
   char* stringVal;
 
-#line 163 "y.tab.h" /* yacc.c:1909  */
+#line 158 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

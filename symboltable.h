@@ -22,7 +22,7 @@ bool varExists(char *ID);
 bool varIntialized(char *ID);
 void curlyBraceIsOpened();
 void curlyBraceIsClosed();
-bool isinScope(char *ID);
+int isinScope(char *ID);
 int getIndex(char *ID);
 char *getDataType(char *ID);
 float getValue(char *ID);

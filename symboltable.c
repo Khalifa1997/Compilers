@@ -55,7 +55,7 @@ bool isDuplicate(char *datatype, char *ID)
     int i ;
     for (i = 0; i < noOfIdentifiers; i++)
     {
-        if (strcmp(ID, symbol[i].name) == 0)
+        if (strcmp(ID, symbol[i].name) == 0 && symbol[i].Scope != -1)
         {
             return true;
         }
@@ -209,17 +209,24 @@ void curlyBraceIsClosed()
 
 }
 
-bool isinScope(char *ID)
+int isinScope(char *ID)
 {
+    int index = 0;
+    index =getIndex(ID);
+     int j=Scope;
+        for(j = Scope; j>=0 ; j--)
+        {
     int i ;
     for (i = 0; i < noOfIdentifiers; i++)
     {
-        if (symbol[i].name == ID && symbol[i].Scope == Scope)
-        {
-            return true;
+         
+         if ((symbol[i].name == ID) && (symbol[index].Scope == j))
+         {
+               return i;
+         }
         }
     }
-    return false;
+    return 500; //not found
 }
 int getIndex(char *ID)
 {
@@ -228,9 +235,8 @@ int getIndex(char *ID)
     for ( i = 0; i < noOfIdentifiers; i++)
     {
         
-        printf("%s",symbol[i].name);
-        printf("%s",ID);
-        if(strcmp(ID,symbol[i].name) ==0 )
+
+        if(strcmp(ID,symbol[i].name) ==0)
         {
             return i;
 
@@ -238,6 +244,7 @@ int getIndex(char *ID)
     }
     return -1;
 }
+
 char *getDataType(char *ID)
 {
     int i ;
@@ -267,7 +274,6 @@ void assignValue(char *ID, float value)
 
     if (isDeclared(ID) == false)
     {
-        // yyerror("UnDeclared Variable!");
         char c[100] = "\n Error on line ";
         strcat(c, itoa_customized(yylineno));
         strcat(c, "\nUndeclared variable:  ");
@@ -346,13 +352,12 @@ void assignValuetoString(char *ID, char *value)
         return;
     }
 
-    if (symbol[getIndex(ID)].Scope != Scope)
+int scopeornot = 0;
+scopeornot = isinScope(ID);
+    if (scopeornot == 500)
     {
 
-    int index =0;
-    index= getIndex(ID);
-
-        //yyerror("out of scope Variable!");
+        yyerror("out of scope Variable!");
         char c[100] = "\n Error on line ";
         strcat(c, itoa_customized(yylineno));
         strcat(c, "\n Variable doesn't exist in scope:  ");
@@ -509,6 +514,10 @@ else{
 
 void IncrementValue(char*ID)
 {
+   int index=0;
+index = getIndex(ID);
+
+
      if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
@@ -517,26 +526,15 @@ void IncrementValue(char*ID)
         strcat(c, "\nUndeclared variable:  ");
         strcat(c, ID);
         strcat(c, "\0");
-        strcpy(semanticerrors[noOfErrors], c);
+        //strcpy(semanticerrors[noOfErrors], c);
         noOfErrors++;
         return;
     }
 
-    if (symbol[getIndex(ID)].Scope != Scope)
-    {
-        //yyerror("out of scope Variable!");
-        char c[100] = "\n Error on line ";
-        strcat(c, itoa_customized(yylineno));
-        strcat(c, "\n Variable doesn't exist in scope:  ");
-        strcat(c, ID);
-        strcat(c, "\0");
-        strcpy(semanticerrors[noOfErrors], c);
-        noOfErrors++;
-        return;
-    }
 
-    if(varIntialized(ID) == false)
+  if(varIntialized(ID) == false)
     {
+
         char c[100] = "\n Error on line ";
         strcat(c, itoa_customized(yylineno));
         strcat(c, "\n Variable not initialized:  ");
@@ -546,11 +544,29 @@ void IncrementValue(char*ID)
         noOfErrors++;
         return;
     }
+        printf("yakhtey scope  ");
+        printf("%i",symbol[index].Scope);
+int scopeornot = 0;
+scopeornot = isinScope(ID);
 
-int index=0;
-index = getIndex(ID);
+    if (scopeornot == 500)
+    {
+        printf("yakhtey");
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        //strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
 
-    symbol[index].value = symbol[index].value+1;
+  
+
+
+    symbol[scopeornot].value = symbol[scopeornot].value+1;
     printSymbolTable();
     return;
     

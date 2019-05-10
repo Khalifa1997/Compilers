@@ -13,7 +13,6 @@ int yywrap();
 "int"			{yylval.stringVal="int";}return INT;
 "float"			{yylval.stringVal="float";}return FLOAT;
 "string"		{yylval.stringVal="string";}return STRING;
-"char"			{yylval.stringVal="char";}return CHAR;
 "boolean"		{yylval.stringVal="boolean";}return BOOLEAN;
 
 "if"			return IF;
@@ -65,7 +64,6 @@ int yywrap();
 [0-9]+\.[0-9]+		{yylval.floatVal=atof(yytext); } return FLOATVALUE;
 [a-zA-Z][a-zA-Z0-9_]*	{yylval.stringVal=strdup(yytext);} return IDENTIFIER;
 \".*\"			{yylval.stringVal=strdup(yytext);} return STRINGVALUE;
-\'[a-zA-Z]\'		{yylval.stringVal = yytext[1];} return CHARVALUE;
 
 
 
