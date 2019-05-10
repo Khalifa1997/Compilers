@@ -205,6 +205,17 @@ void printSemanticErrors()
         printf(newstr);
     }
 }
+
+int isDeclared(char* ID){
+int i;
+for(i=0; i<noOfIdentifiers; i++){
+  if(strcmp(symbol[i].name,ID) == 0){
+    return 1;
+  }
+}
+    return 0;
+}
+
 void assignValue(char *ID, float value)
 {
     if (isDeclared(ID) == false)
