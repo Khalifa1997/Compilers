@@ -9,7 +9,8 @@ void printSymbolTable()
 }
 bool isDuplicate(char *datatype, char *ID)
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for (i = 0; i < noOfIdentifiers; i++)
     {
         if (strcmp(ID, symbol[i].name) == 0)
         {
@@ -87,6 +88,7 @@ void declare_and_intialize(char *datatype, char *ID, float val)
         }
     }
 }
+
 void declare_initString(char *datatype, char *ID, char *val)
 {
 
@@ -117,7 +119,8 @@ void declare_initString(char *datatype, char *ID, char *val)
 }
 bool varExists(char *ID)
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+   int i ;
+    for (i=0; i < noOfIdentifiers; i++)
     {
         if (strcmp(symbol[i].name, ID) == 0)
         {
@@ -128,7 +131,8 @@ bool varExists(char *ID)
 }
 bool varIntialized(char *ID)
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for (i = 0; i < noOfIdentifiers; i++)
     {
         if (strcmp(symbol[i].name, ID) == 0 && symbol[i].isintialized == true)
         {
@@ -143,7 +147,8 @@ void curlyBraceIsOpened()
 }
 void curlyBraceIsClosed()
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for (i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].Scope == Scope && Scope != 0)
         {
@@ -155,7 +160,8 @@ void curlyBraceIsClosed()
 }
 bool isinScope(char *ID)
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for (i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name == ID && symbol[i].Scope == Scope)
         {
@@ -166,7 +172,8 @@ bool isinScope(char *ID)
 }
 int getIndex(char *ID)
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for ( i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name == ID)
         {
@@ -177,7 +184,8 @@ int getIndex(char *ID)
 }
 char *getDataType(char *ID)
 {
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for ( i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name == ID)
         {
@@ -188,7 +196,8 @@ char *getDataType(char *ID)
 }
 void printSemanticErrors()
 {
-    for (int i = 0; i < noOfErrors; i++)
+   int i ;
+    for ( i = 0; i < noOfErrors; i++)
     {
         char *newstr = malloc(strlen(semanticerrors[i]) + 2);
         strcat(newstr, semanticerrors[i]);
@@ -198,7 +207,7 @@ void printSemanticErrors()
 }
 void assignValue(char *ID, float value)
 {
-    if (isDeclared(ID) == true)
+    if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
         char c[100] = "\n Error on line ";
@@ -224,7 +233,8 @@ void assignValue(char *ID, float value)
         return;
     }
 
-    for (int i = 0; i < noOfIdentifiers; i++)
+int i ;
+    for (i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name = ID)
         {
@@ -260,7 +270,7 @@ void assignValue(char *ID, float value)
 }
 void assignValuetoString(char *ID, char *value)
 {
-    if (isDeclared(ID) == true)
+    if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
         char c[100] = "\n Error on line ";
@@ -285,7 +295,8 @@ void assignValuetoString(char *ID, char *value)
         noOfErrors++;
         return;
     }
-    for (int i = 0; i < noOfIdentifiers; i++)
+    int i ;
+    for ( i = 0; i < noOfIdentifiers; i++)
     {
         if (symbol[i].name = ID)
         {
@@ -297,4 +308,247 @@ void assignValuetoString(char *ID, char *value)
             return;
         }
     }
+}
+
+float getValue(char *ID)
+{
+     if (isDeclared(ID) == false)
+    {
+        // yyerror("UnDeclared Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\nUndeclared variable:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if (isinScope(ID) == false)
+    {
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if(varIntialized(ID) == false)
+    {
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable not initialized:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+   
+   
+   int index = getIndex(ID);
+   
+    if(index != -1)
+    {
+   char* ID_datatype = getDataType(ID);
+      if(strcmp(ID_datatype,"string") == 0 || strcmp(ID_datatype,"char") == 0 || strcmp(ID_datatype,"boolean") == 0)
+      {
+          char c[100] = "\nERROR ON LINE :   ";
+          strcat(c,itoa_customized(yylineno));
+          strcat(c,"\ncannot use variable ");
+          strcat(c,ID);
+          strcat(c,"of type ");
+          strcat(c,ID_datatype);
+          strcat(c,"in a mathematical or logical expression ");
+          strcat(c,"\0");
+          strcpy(semanticerrors[noOfErrors],c);
+          noOfErrors ++;  
+      }
+else{
+        return symbol[index].value;
+}
+      
+    }
+      
+}
+
+
+
+
+char* getStringValue(char*ID)
+{
+
+    if (isDeclared(ID) == false)
+    {
+        // yyerror("UnDeclared Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\nUndeclared variable:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if (isinScope(ID) == false)
+    {
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if(varIntialized(ID) == false)
+    {
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable not initialized:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+   
+   
+   int index = getIndex(ID);
+   
+    if(index != -1)
+    {
+   char* ID_datatype = getDataType(ID);
+      if(strcmp(ID_datatype,"int") == 0 || strcmp(ID_datatype,"float") == 0 )
+      {
+          char c[100] = "\nERROR ON LINE :   ";
+          strcat(c,itoa_customized(yylineno));
+          strcat(c,"\ncannot use variable ");
+          strcat(c,ID);
+          strcat(c,"of type ");
+          strcat(c,ID_datatype);
+          strcat(c,"in a mathematical or logical expression ");
+          strcat(c,"\0");
+          strcpy(semanticerrors[noOfErrors],c);
+          noOfErrors ++;  
+      }
+else{
+        return symbol[index].stringValue;
+}
+      
+    }
+    
+}
+
+
+
+
+
+
+
+void IncrementValue(char*ID)
+{
+     if (isDeclared(ID) == false)
+    {
+        // yyerror("UnDeclared Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\nUndeclared variable:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if (isinScope(ID) == false)
+    {
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if(varIntialized(ID) == false)
+    {
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable not initialized:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+int index = getIndex(ID);
+
+    symbol[index].value = symbol[index].value+1;
+    return;
+    
+
+}
+
+void DecrementValue(char*ID)
+{
+
+ if (isDeclared(ID) == false)
+    {
+        // yyerror("UnDeclared Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\nUndeclared variable:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if (isinScope(ID) == false)
+    {
+        //yyerror("out of scope Variable!");
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable doesn't exist in scope:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+    if(varIntialized(ID) == false)
+    {
+        char c[100] = "\n Error on line ";
+        strcat(c, itoa_customized(yylineno));
+        strcat(c, "\n Variable not initialized:  ");
+        strcat(c, ID);
+        strcat(c, "\0");
+        strcpy(semanticerrors[noOfErrors], c);
+        noOfErrors++;
+        return;
+    }
+
+int index = getIndex(ID);
+
+    symbol[index].value = symbol[index].value-1;
+    return;
+    
+
 }

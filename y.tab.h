@@ -49,18 +49,18 @@ extern int yydebug;
     FLOAT = 259,
     CHAR = 260,
     VOID = 261,
-    SEMICOLON = 262,
-    RETURN = 263,
-    STRING = 264,
-    DEFAULT = 265,
-    FOR = 266,
-    WHILE = 267,
-    IF = 268,
-    ELSE = 269,
-    RBRACE = 270,
-    LBRACE = 271,
-    RBRACKET = 272,
-    IDENTIFIER = 273,
+    IDENTIFIER = 262,
+    SEMICOLON = 263,
+    RETURN = 264,
+    STRING = 265,
+    DEFAULT = 266,
+    FOR = 267,
+    WHILE = 268,
+    IF = 269,
+    ELSE = 270,
+    RBRACE = 271,
+    LBRACE = 272,
+    RBRACKET = 273,
     LBRACKET = 274,
     SWITCH = 275,
     CASE = 276,
@@ -101,18 +101,18 @@ extern int yydebug;
 #define FLOAT 259
 #define CHAR 260
 #define VOID 261
-#define SEMICOLON 262
-#define RETURN 263
-#define STRING 264
-#define DEFAULT 265
-#define FOR 266
-#define WHILE 267
-#define IF 268
-#define ELSE 269
-#define RBRACE 270
-#define LBRACE 271
-#define RBRACKET 272
-#define IDENTIFIER 273
+#define IDENTIFIER 262
+#define SEMICOLON 263
+#define RETURN 264
+#define STRING 265
+#define DEFAULT 266
+#define FOR 267
+#define WHILE 268
+#define IF 269
+#define ELSE 270
+#define RBRACE 271
+#define LBRACE 272
+#define RBRACKET 273
 #define LBRACKET 274
 #define SWITCH 275
 #define CASE 276
@@ -152,7 +152,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 11 "c.y" /* yacc.c:1909  */
+#line 12 "c.y" /* yacc.c:1909  */
 
   int intVal;
   char charVal;

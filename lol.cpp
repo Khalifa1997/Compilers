@@ -1,10 +1,9 @@
-for(int x = 5; x<4 ; x++)
-{
-    if(x<5)
-    {
-           break;
-    }
-int x = d;
+int x = 2+s;
 
-}
+string ahmed = ddsa;
+string mohamed = ahmed;
 
+
+int x = (jjd)+3+(2);
+
+string x = string(y);

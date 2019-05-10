@@ -1,4 +1,6 @@
 for(int x = 1 ; x<6 ; x++)
 {
    int z = z+1 ;
+   xx++;
 }
+dd++;

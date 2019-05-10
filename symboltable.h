@@ -14,7 +14,6 @@ char *semanticerrors[100];
 void printSymbolTable();
 void declare_variable(char *datatype, char *ID);
 bool isDuplicate(char *datatype, char *ID);
-void declare_variable(char *datatype, char *ID);
 void declare_and_intialize(char *datatype, char *ID, float IntialValue);
 void declare_initString(char *datatype, char *ID, char *IntialValue);
 bool varExists(char *ID);
@@ -24,10 +23,13 @@ void curlyBraceIsClosed();
 bool isinScope(char *ID);
 int getIndex(char *ID);
 char *getDataType(char *ID);
-float getValue(char *identifier);
+float getValue(char *ID);
 void printSemanticErrors();
 void assignValue(char *ID, float value);
 void assignValuetoString(char *ID, char *value);
+char* getStringValue(char *ID);
+void IncrementValue(char*ID);
+void DecrementValue(char*ID);
 
 struct symbol
 {
