@@ -10,7 +10,7 @@ int yywrap();
 %%
 
 "void"			return VOID;
-"int"			return INT;
+"int"			{yylval.stringVal="int";}return INT;
 "float"			return FLOAT;
 "string"		return STRING;
 "char"			return CHAR;
@@ -63,7 +63,7 @@ int yywrap();
 
 [0-9]+ 			return INTVALUE;
 [0-9]+\.[0-9]+		return FLOATVALUE;
-[a-zA-Z][a-zA-Z0-9_]*	return IDENTIFIER;
+[a-zA-Z][a-zA-Z0-9_]*	{yylval.stringVal=yytext;}return IDENTIFIER;
 \'[a-zA-Z]\'		return CHARVALUE;
 \".*\"			return STRINGVALUE;
 
@@ -71,8 +71,8 @@ int yywrap();
 
 [\/\*][.]*[\/\*]	return COMMENT;
 
-\n				;
-[\t|\f|\r|\v]*			;
+\n				{yylineno++;};
+[\t|\f|\r|\v]+			;
 
 . 				;
 

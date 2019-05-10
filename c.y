@@ -55,12 +55,11 @@ Declaration: Type IDENTIFIER SEMICOLON { declare_variable($1, $2); }
 	| IDENTIFIER EQ StringAnyValue SEMICOLON	{assignValuetoString($1, $3);}
 	| IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {assignValuetoString($1,getStringValue($5));}
 	| Type IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {declare_initString($1,$2,getStringValue($6));}
-	| IDENTIFIER INC SEMICOLON { IncrementValue($1);}
-	| IDENTIFIER DEC SEMICOLON  { DecrementValue($1);}
+	| IDENTIFIER INC SEMICOLON { printf("increemt"); IncrementValue($1);}
+	| IDENTIFIER DEC SEMICOLON  
 	| Stmt
 	/*| error */	
 	;
-
 
 /* Assignment block */
 MathAssignment: IDENTIFIER PLUS MathAssignment  {$$ = getValue($1) + $3;}
@@ -83,7 +82,7 @@ MathAssignment: IDENTIFIER PLUS MathAssignment  {$$ = getValue($1) + $3;}
 	| MINUS LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = -$3 / $6;}
 	| MINUS MathAnyValue {$$ = -$2;}
 	| MINUS IDENTIFIER  {$$ = - (getValue($2));}
-	| MathAnyValue 
+	| MathAnyValue {$$ = $1;}
 	| IDENTIFIER {$$ = getValue($1);}
 	;
 
@@ -138,7 +137,7 @@ Stmt:	WhileStmt
 	;
 
 /* Type Identifier block */
-Type:INT {$$ = $1;}
+Type:	INT {$$ = $1;}
 	| FLOAT {$$ = $1;}
 	| CHAR {$$ = $1;}
 	| STRING {$$ = $1;}
@@ -197,6 +196,8 @@ Cas :CASE MathAssignment COLON Declarations BREAK SEMICOLON
 main()
 {
  return(yyparse());
+printSemanticErrors();
+printSymbolTable();
 }
 
 yyerror(s)

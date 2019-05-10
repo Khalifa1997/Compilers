@@ -12,6 +12,8 @@ int noOfErrors = 0;
 char *semanticerrors[100];
 
 void printSymbolTable();
+void unusedvariables();
+void printSemanticErrors();
 void declare_variable(char *datatype, char *ID);
 bool isDuplicate(char *datatype, char *ID);
 void declare_and_intialize(char *datatype, char *ID, float IntialValue);

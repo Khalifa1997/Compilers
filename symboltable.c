@@ -1,4 +1,47 @@
 #include "symboltable.h"
+
+
+ char* itoa_customized(int number){
+   static char buffer[33];
+   snprintf(buffer, sizeof(buffer), "%d", number);
+   return buffer;
+}
+
+void unusedvariables()
+{
+  int i;
+  for(i=0;i<noOfIdentifiers;i++)
+  {
+    if(symbol[i].isintialized==0)
+    {
+      //printf("Semantic Error: unused variable : %s\n",identifiers[i].ID);
+        char c[100] = "\nSemantic Error: unused variable : ";
+        strcat(c,symbol[i].name);
+        strcat(c,"\0");
+        strcpy(semanticerrors[noOfErrors],c);
+        noOfErrors ++; 
+    }
+  }
+}
+
+
+void printSemanticErrors()
+{
+int count=0;
+  unusedvariables();
+  int i;
+  for(i=0; i <= noOfErrors; i++)
+  {
+    printf("\n '%s' \n",(char*)semanticerrors[i]);
+count++;
+  }
+if(count==0)
+{
+printf("No error");
+}
+}
+
+
 void printSymbolTable()
 {
     int i;
@@ -36,7 +79,6 @@ void declare_variable(char *datatype, char *ID)
             noOfErrors++;
             return;
         }
-
         symbol[noOfIdentifiers].type = datatype;
         symbol[noOfIdentifiers].name = ID;
         symbol[noOfIdentifiers].isintialized = false;
@@ -54,6 +96,7 @@ void declare_variable(char *datatype, char *ID)
 }
 void declare_and_intialize(char *datatype, char *ID, float val)
 {
+    printf("%s",ID);
     if (noOfIdentifiers < 99)
     {
         if (isDuplicate(datatype, ID))
@@ -87,6 +130,7 @@ void declare_and_intialize(char *datatype, char *ID, float val)
             noOfIdentifiers++;
         }
     }
+   printSymbolTable(); 
 }
 
 void declare_initString(char *datatype, char *ID, char *val)
@@ -194,17 +238,7 @@ char *getDataType(char *ID)
     }
     return "";
 }
-void printSemanticErrors()
-{
-   int i ;
-    for ( i = 0; i < noOfErrors; i++)
-    {
-        char *newstr = malloc(strlen(semanticerrors[i]) + 2);
-        strcat(newstr, semanticerrors[i]);
-        strcat(newstr, "\n");
-        printf(newstr);
-    }
-}
+
 
 int isDeclared(char* ID){
 int i;
@@ -321,6 +355,7 @@ void assignValuetoString(char *ID, char *value)
     }
 }
 
+
 float getValue(char *ID)
 {
      if (isDeclared(ID) == false)
@@ -335,6 +370,9 @@ float getValue(char *ID)
         noOfErrors++;
         return;
     }
+
+
+
 
     if (isinScope(ID) == false)
     {
@@ -469,6 +507,7 @@ else{
 
 void IncrementValue(char*ID)
 {
+    printf("ana hena");
      if (isDeclared(ID) == false)
     {
         // yyerror("UnDeclared Variable!");
