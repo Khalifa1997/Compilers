@@ -257,12 +257,12 @@ char *getDataType(char *ID)
     int i ;
     for ( i = 0; i < noOfIdentifiers; i++)
     {
-        if (symbol[i].name == ID)
+        if (strcmp(symbol[i].name,ID)==0 )
         {
             return symbol[i].type;
         }
     }
-    return "";
+    return "no";
 }
 
 

@@ -50,35 +50,49 @@ Declarations: Declaration | Declarations Declaration
 Declaration: Type IDENTIFIER SEMICOLON { declare_variable($1, $2); }
     | Type IDENTIFIER EQ MathAssignment SEMICOLON  { 	if(strcmp($1,"int") ==0 || strcmp($1,"float") ==0 ) 
 															declare_and_intialize($1, $2, $4);
-															else {
+															else if((strcmp($1,"string") == 0) )
+														 {
 															printf("Type mismatch");
 															printf("\n");}
 															}
 	| Type IDENTIFIER EQ StringAnyValue SEMICOLON { if(strcmp($1,"string") == 0) 
 														declare_initString($1,$2,$4);
-														else 
-														{printf("Type mismatch");
+														else if(strcmp($1,"int") == 0 || strcmp($1,"float") == 0 ) {printf("Type mismatch");
 														printf("\n"); }
 														}
 
 	| IDENTIFIER EQ MathAssignment SEMICOLON  { if(strcmp(getDataType($1),"int") == 0 || strcmp(getDataType($1),"float") == 0 )
 													 assignValue($1,$3);
-													 else {
+													 else if((strcmp(getDataType($1),"string") == 0) )
+														 {
 															printf("Type mismatch");
+															printf("\n");}
+															else if((strcmp(getDataType($1),"no") == 0) )
+														 {
+															printf("Not declared");
 															printf("\n");}
 															}
 	| IDENTIFIER EQ StringAnyValue SEMICOLON	{ if(strcmp(getDataType($1),"string") == 0 )
 												assignValuetoString($1, $3);
-												 else 
+												 else if(strcmp(getDataType($1),"int") == 0 || strcmp(getDataType($1),"float") == 0 ) {
 															{printf("Type mismatch");
 															printf("\n");}
 															}
+															else if((strcmp(getDataType($1),"no") == 0) )
+														 {
+															printf("Not declared");
+															printf("\n");}
+	}
 	| IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {if(strcmp(getDataType($1),"string") == 0 )
 															assignValuetoString($1,getStringValue($5));
-															 else 
+															 else if(strcmp(getDataType($1),"int") == 0 || strcmp(getDataType($1),"float") == 0 )
 															 {
 															printf("Type mismatch");
 															printf("\n");} 
+															else if((strcmp(getDataType($1),"no") == 0) )
+														 {
+															printf("Not declared");
+															printf("\n");}
 																	}
 	| Type IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON { if(strcmp($1,"string") == 0)
 																		declare_initString($1,$2,getStringValue($6));
@@ -87,16 +101,10 @@ Declaration: Type IDENTIFIER SEMICOLON { declare_variable($1, $2); }
 															printf("Type mismatch");
 															printf("\n");}
 															}
-	| IDENTIFIER INC SEMICOLON { if(strcmp($1,"int") ==0 || strcmp($1,"float") ==0 )IncrementValue($1);
-										else  
-										{printf("Type mismatch");
-															printf("\n");}
-									}
-	| IDENTIFIER DEC SEMICOLON  {if(strcmp($1,"int") ==0 || strcmp($1,"float") ==0) DecrementValue($1);
-										else  
-										{printf("Type mismatch");
-															printf("\n");}
-															}
+	| IDENTIFIER INC SEMICOLON { if( strcmp(getDataType($1),"int") == 0 ||  strcmp(getDataType($1),"float") == 0)
+		IncrementValue($1);}
+								
+	| IDENTIFIER DEC SEMICOLON  { if( strcmp(getDataType($1),"int") == 0 ||  strcmp(getDataType($1),"float") == 0) DecrementValue($1);}
 	| Stmt
 	/*| error */	
 	;
