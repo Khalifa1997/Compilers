@@ -54,45 +54,42 @@ Declaration: Type IDENTIFIER SEMICOLON { declare_variable($1, $2); }
 	| IDENTIFIER EQ StringAnyValue SEMICOLON	{ assignValuetoString($1, $3);}
 	| IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {assignValuetoString($1,getStringValue($5));} 
 	| Type IDENTIFIER EQ STRING LBRACKET IDENTIFIER RBRACKET SEMICOLON {declare_initString($1,$2,getStringValue($6));}
-	| IDENTIFIER INC SEMICOLON {  IncrementValue($1);}
+	| IDENTIFIER INC SEMICOLON { IncrementValue($1);}
 	| IDENTIFIER DEC SEMICOLON  {DecrementValue($1);}
 	| Stmt
 	/*| error */	
 	;
 
 /* Assignment block */
-MathAssignment: IDENTIFIER PLUS MathAssignment  { $$ = getValue($1) + $3;}
-	| IDENTIFIER MINUS MathAssignment {$$ = getValue($1) - $3;}
-	| IDENTIFIER MULTIPLY MathAssignment {$$ = getValue($1) * $3;}
-	| IDENTIFIER DIVIDE MathAssignment {$$ = getValue($1) / $3;}
-	| MathAnyValue PLUS MathAssignment {$$ = $1 + $3;}
-	| MathAnyValue MINUS MathAssignment {$$ = $1 - $3;}
-	| MathAnyValue MULTIPLY MathAssignment {$$ = $1 * $3;}
-	| MathAnyValue DIVIDE MathAssignment {$$ = $1 / $3;}
 
+
+ MathAssignment: MathAssignment PLUS MathAssignment  { $$ = $1 + $3;}
+	| MathAssignment MINUS MathAssignment {$$ = $1  - $3;}
+	| MathAssignment MULTIPLY MathAssignment {$$ = $1  * $3;}
+	| MathAssignment DIVIDE MathAssignment {$$ = $1  / $3;}
 	| LBRACKET MathAssignment RBRACKET {$$ = ($2);}
-	| LBRACKET MathAssignment RBRACKET PLUS MathAssignment {$$ = ($2) + $5;}
-	| LBRACKET MathAssignment RBRACKET MINUS MathAssignment {$$ = ($2) - $5;}
-	| LBRACKET MathAssignment RBRACKET MULTIPLY MathAssignment {$$ = ($2) * $5;}
-	| LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = ($2) / $5;}
-	| MINUS LBRACKET MathAssignment RBRACKET {$$ = -($3);}
-	| MINUS LBRACKET MathAssignment RBRACKET PLUS MathAssignment {$$ = - ($3 )+ $6;}
-	| MINUS LBRACKET MathAssignment RBRACKET MINUS MathAssignment {$$ = -($3 )- $6;}
-	| MINUS LBRACKET MathAssignment RBRACKET MULTIPLY MathAssignment {$$ = - ($3) * $6;}
-	| MINUS LBRACKET MathAssignment RBRACKET DIVIDE MathAssignment {$$ = - ($3) / $6;}
 	| MINUS MathAnyValue {$$ = - $2 ;}
 	| MINUS IDENTIFIER  {$$ = - (getValue($2));}
 	| MathAnyValue {$$ = $1;}
-	| IDENTIFIER { int index =0;
-					index = isinScope($1);
-					if(index !=500)
-				$$ = getValue($1);
-				else {
-					printf("out of scope");
-					printf("\n");
-				}
+	| IDENTIFIER { int scopeornot =0;
+					scopeornot = isinScope($1);
+				
+					if(scopeornot !=500)
+						{
+							if(strcmp(symbol[getIndex($1)].type,"int") == 0|| strcmp(symbol[getIndex($1)].type,"float") ==0 )
+							$$ = (int)symbol[getIndex($1)].value;
+							else {printf("Not compatible types");
+								printf("\n");
+							}
+						
+						}
+					else if (scopeornot == 500) {
+						printf("out of scope");
+						printf("\n");
+						}
 				}
 	;
+
 
 MathAnyValue: INTVALUE {$$ = $1;}
 		| FLOATVALUE {$$ = $1;}
@@ -124,14 +121,14 @@ ExprAssignment:IDENTIFIER PLUS ExprAssignment {$$ = getValue($1) + $3;}
 	| IDENTIFIER MINUS ExprAssignment {$$ = getValue($1) - $3;}
 	| IDENTIFIER MULTIPLY ExprAssignment {$$ = getValue($1) * $3;}
 	| IDENTIFIER DIVIDE ExprAssignment	 {$$ = getValue($1) / $3;}
-	| MathAnyValue PLUS ExprAssignment
-	| MathAnyValue MINUS ExprAssignment
-	| MathAnyValue MULTIPLY ExprAssignment
-	| MathAnyValue DIVIDE ExprAssignment
+	| MathAnyValue PLUS ExprAssignment {$$ = $1 + $3;}
+	| MathAnyValue MINUS ExprAssignment {$$ = $1 - $3;}
+	| MathAnyValue MULTIPLY ExprAssignment {$$ = $1 * $3;}
+	| MathAnyValue DIVIDE ExprAssignment {$$ = $1 / $3;}
 	| MINUS LBRACKET ExprAssignment RBRACKET {$$ = -$3;}
 	| MINUS MathAnyValue	{$$ = -$2;}
 	| MINUS IDENTIFIER	 {$$ = - (getValue($2));}
-	| MathAnyValue
+	| MathAnyValue {$$ = $1;}
 	| IDENTIFIER {$$ = getValue($1);}
 	;
 
@@ -150,16 +147,18 @@ Type:	INT {$$ = $1;}
 	;
 
 /* Loop Blocks */ 
-WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE Temp1 RBRACE
+WhileStmt: WHILE LBRACKET Expr RBRACKET LBRACE  {curlyBraceIsOpened();}
+Temp1 RBRACE {curlyBraceIsClosed();} 
 	;
-Temp1 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON;
+Temp1 : Declarations | Declarations BREAK SEMICOLON | BREAK SEMICOLON | ;
 
-DoWhileStmt: DO LBRACE Temp1 RBRACE WHILE LBRACKET Expr RBRACKET SEMICOLON
+DoWhileStmt: DO LBRACE 
+{curlyBraceIsOpened();} Temp1 RBRACE {curlyBraceIsClosed();}  WHILE LBRACKET Expr RBRACKET SEMICOLON
              ;
 
 /* For Block */
-ForStmt: FOR {curlyBraceIsOpened();} LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE
-  Temp1 RBRACE  {curlyBraceIsClosed();} 
+ForStmt: FOR {curlyBraceIsOpened();}  LBRACKET CustomExprForFirst SEMICOLON Expr SEMICOLON CustomExprForThird RBRACKET LBRACE
+  Temp1 RBRACE  {curlyBraceIsClosed();}
 	;
 
 CustomExprForFirst: Type IDENTIFIER EQ MathAssignment {declare_and_intialize($1, $2, $4);}
